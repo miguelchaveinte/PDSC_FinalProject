@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacationAsHome</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul id="sidemenu">
+                    <li style="margin: 50px 400px;"><a href="disponible_NO_login.html">Alojamientos Disponibles</a></li>
+                    <button class="button button1" onclick="document.getElementById('id01').style.display='block'" style="width: auto;">Log In</button>
+
+                    <div id="id01" class="modal">
+                        <!--Form-->
+                        <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+
+                            <div class="imgcontainer">
+                                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                <img src="icon_vacation.png" alt="Avatar" class="avatar">
+                            </div>
+
+                            <div class="container" style="padding: 16px">
+
+                                <h1>Identificarse</h1>
+                                    <br><br><br>
+
+                                <!-- Email -->
+                                <label for="email"><b>Correo Electrónico</b></label>
+                                <input type="text" placeholder="Correo Electrónico" name="email" required><br><br>
+
+                                <!-- Password -->
+                                <label for="psw"><b>Contraseña</b></label>
+                                <input type="password" placeholder="Introduce tu contraseña" name="psw" required><br><br>
+
+                                <!-- Submit Button -->
+                                <button type="submit">Login</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </ul>
+            </nav>
+
+            <div style="width: 40%; float: left;">
+                <div class="header-text">
+                    <h1>VacationAsHome</h1>
+                    <br>
+                    <p>Un mundo ideal.<br>Aunque sólo sea por una noche.
+                    <br><br>The dream of your dreams</p>
+                </div>
+            </div>
+
+            <div style="width: 50%; float: right;">
+                <img src="img_principal.jpg" alt="VacationAsHome" width="550" height="450">
+            </div>
+        
+        </div>
+    </div>
+
+
+    <!--Script-->
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+        }
+    </script>
+
+</body>
+</html>

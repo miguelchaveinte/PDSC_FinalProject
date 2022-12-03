@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacationAsHome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul id="sidemenu">
+                    <!--<img src="icon_vacation.png" alt="VacationAsHome" width="210" height="120">-->
+                    <li><a href="disponibles.html">Alojamientos Disponibles</a></li>
+                    <li><a href="reserva.html">Reservar Alojamiento</a></li>
+                    <li><a href="#">Registrar Nuevos Precios</a></li>
+                    <button class="button button1" style="width: auto;">Bienvenido</button>
+                </ul>
+            </nav>
+        
+        <h1 style="text-align: center;">Sus alojamientos</h1><br>
+
+        <!--Tabla Alojamientos-->
+        <table>
+            <!--Cabeceras Tabla-->
+            <tr>
+              <th>Descripción</th>
+              <th></th>
+              <th>Nombre</th>
+              <th>Localidad</th>
+              <th>Ubicación precisa</th>
+              <th>Precios</th>
+            </tr>
+
+            <!--Rows de la tabla-->
+            <tr>
+                <td><img src="./Imgs_Alojamientos/img1.jpeg" alt="VacationAsHome"></td>
+                <td><button class="button button1" onclick="document.getElementById('id03').style.display='block'" style="width: auto;">Modificar <br> Precios</button></td>
+              <td>Casa Pedro</td>
+              <td>Boecillo</td>
+              <td>Calle Crestons, 3, 1ºA</td>
+              <td>Noche: 70€ <br> Fin de Semana:200€ <br> Semana:500€ <br> Mes:3000€</td>
+            </tr>
+
+            <tr>
+                <td><img src="./Imgs_Alojamientos/img5.jpeg" alt="VacationAsHome"></td>
+                <td><button class="button button1" onclick="document.getElementById('id03').style.display='block'" style="width: auto;">Modificar <br> Precios</button></td>
+                <td>Casa Pedro</td>
+                <td>Boecillo</td>
+                <td>Calle Crestons, 3, 1ºA</td>
+                <td>Noche: 70€ <br> Fin de Semana:200€ <br> Semana:500€ <br> Mes:3000€</td>
+            </tr>
+
+            <tr>
+                <td><img src="./Imgs_Alojamientos/img3.jpeg" alt="VacationAsHome"></td>
+                <td><button class="button button1" onclick="document.getElementById('id03').style.display='block'" style="width: auto;">Modificar <br> Precios</button></td>
+                <td>Casa Pedro</td>
+                <td>Boecillo</td>
+                <td>Calle Crestons, 3, 1ºA</td>
+                <td>Noche: 70€ <br> Fin de Semana:200€ <br> Semana:500€ <br> Mes:3000€</td>
+            </tr>
+
+            <tr>
+                <td><img src="./Imgs_Alojamientos/img4.jpeg" alt="VacationAsHome"></td>
+                <td><button class="button button1" onclick="document.getElementById('id03').style.display='block'" style="width: auto;">Modificar <br> Precios</button></td>
+                <td>Casa Pedro</td>
+                <td>Boecillo</td>
+                <td>Calle Crestons, 3, 1ºA</td>
+                <td>Noche: 70€ <br> Fin de Semana:200€ <br> Semana:500€ <br> Mes:3000€</td>
+            </tr>
+        </table>
+
+        <!--Modal-->
+        <div id="id03" class="modal">
+            <!--Form-->
+            <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="./Imgs_Alojamientos/img1.jpeg" alt="Avatar" class="avatar">
+                </div>
+
+                <div class="container" style="padding: 16px">
+
+                    <h1>Casa Pedro</h1>
+                        <br>
+
+                    <!-- Noche -->
+                    <label for="noche"><b>Precio por noche:</b></label>
+                    <input type="text" placeholder="70€" name="noche" required><br>
+
+                    <!-- Finde -->
+                    <label for="finde"><b>Precio fin de semana:</b></label>
+                    <input type="text" placeholder="200€" name="finde" required><br>
+
+                    <!-- Semana -->
+                    <label for="semana"><b>Precio una semana:</b></label>
+                    <input type="text" placeholder="500€" name="semana" required><br>
+
+                    <!-- Mes -->
+                    <label for="mes"><b>Precio por mes:</b></label>
+                    <input type="text" placeholder="3000€" name="mes" required><br>
+
+                    <!--Fin Vigencia-->
+                    <label for="date_fin" style="font-size: 24px;">Fecha de fin de vigencia: </label>
+                    <input type="date" id="date_fin" name="date_fin" required>
+                    <br><br>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit">Guardar Tarjeta</button>
+
+                </div>
+            </form>
+        </div>
+
+
+        </div>
+    </div>
+    
+</body>
+</html>

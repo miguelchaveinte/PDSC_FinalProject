@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacationAsHome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+    <div id="headerP">
+        <div class="container">
+            <nav>
+                <ul id="sidemenu">
+                    <!--<img src="icon_vacation.png" alt="VacationAsHome" width="210" height="120">-->
+                    <li><a href="disponibles.html">Alojamientos Disponibles</a></li>
+                    <li><a href="reserva.html">Reservar Alojamiento</a></li>
+                    <li><a href="registrar.html">Registrar Nuevos Precios</a></li>
+                    <button class="button button1" style="width: auto;">Bienvenido</button>                    
+                </ul>
+            </nav>
+
+            <!--------Fechas y Buscador Localidad-------->
+            <div style="width: 40%; float: left;">
+                <div class="header-text">
+                <img src="./Imgs_Alojamientos/IMG_6.webp" width="700" height="500">
+                </div>
+            </div>
+
+            <div style="width: 40%; float: right;">
+                <div class="header-text">
+                    <label for="huespedes" style="font-size: 24px;">Nombre:</label> <span style="font-size: 20px;">Casa Paredes</span>
+                    <br>
+                    <label for="huespedes" style="font-size: 24px;">Máximo huéspedes:</label> <span style="font-size: 20px;">7</span>
+                    <br>
+                    <label for="huespedes" style="font-size: 24px;">Número de dormitorios:</label> <span style="font-size: 20px;">4</span>
+                    <br>
+                    <label for="huespedes" style="font-size: 24px;">Número de camas:</label> <span style="font-size: 20px;">6</span>
+                    <br>
+                    <label for="huespedes" style="font-size: 24px;">Número de baños:</label> <span style="font-size: 20px;">4</span>
+                    <br>
+                    <label for="huespedes" style="font-size: 24px;">Servicios:</label> <span style="font-size: 20px;">Business</span><br><br><br>
+
+                    <!--------Filtro Fechas-------->
+                    <form action="/action_page.php">
+                        <div style="width: 40%; float: left;">
+                            <!--Fecha Inicio-->
+                            <label for="date_ini" style="font-size: 24px;">Fecha de Entrada</label><br>
+                            <input type="date" id="date_ini" name="date_ini"><br><br>
+                        </div>
+    
+                        <div style="width: 40%; float: right;">
+                            <!--Fecha Fin-->
+                            <label for="date_fin" style="font-size: 24px;">Fecha de Salida</label><br>
+                            <input type="date" id="date_fin" name="date_fin">
+                            <br><br>
+                        </div>
+                        <input type="submit" class="button button1" value="Reservar">
+                    </form>
+
+                        <button class="button button1" onclick="document.getElementById('id02').style.display='block'" style="width: auto;">Pruebas</button>
+
+                        <!--Confirmar Reserva-->
+                        <div id="id02" class="modal">
+                            <!--Form-->
+                            <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+    
+                                <div class="imgcontainer">
+                                    <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                    <img src="icon_vacation.png" alt="Avatar" class="avatar">
+                                </div>
+    
+                                <div class="container" style="padding: 16px">
+    
+                                    <h1 style="font-size: 24px;">Confirmar Reserva</h1>
+                                    <br>
+    
+                                    <!-- Mensaje -->
+                                    <label for="message" style="font-size: 16px;"><b>Mensaje para el anfitrión</b></label><br>
+                                    <textarea class="form-control" rows="5" cols="82" name="biografia" id="biografia"></textarea><br>
+
+                                    <!--Pago-->
+                                    <input type="checkbox" id="pago" name="pago" value="Boat"><label for="page" style="font-size: 18px;"><b> Fraccionar Pago</b></label>
+                                    
+                                    <!-- Email 
+                                    <input type="text" placeholder="Correo Electrónico" name="email" required/><br><br>-->
+
+                                    <!-- Submit Button -->
+                                    <button type="submit">Login</button>    
+                                </div>
+                            </form>
+                        </div>
+
+
+                    <!--</form>-->
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="header2">
+        <!--Descripcion del alojamientos + Fecha de Reserva-->
+        <div class="container">
+            <div style="width: 40%; float: left;">
+                <label for="date_ini" style="font-size: 24px;">Características del alojamiento:</label><br>
+                <p>Situado en la Isla Cool se encuentra este maravilloso destino</p>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <!--Script-->
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+        }
+    </script>
+
+</body>
+</html>

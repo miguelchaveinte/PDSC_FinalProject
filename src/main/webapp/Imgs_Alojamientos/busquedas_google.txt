@@ -1,0 +1,3 @@
+alojamientos imagesize:210x120
+
+alojamientos imagesize:800x600
