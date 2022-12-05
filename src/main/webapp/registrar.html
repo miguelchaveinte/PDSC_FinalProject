@@ -122,5 +122,13 @@
         </div>
     </div>
     
+    <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
+    <script type="text/javascript">
+        window.onload=function(){
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementsByName("date_fin")[0].setAttribute('min', today);
+        }
+    </script>
+    
 </body>
 </html>

@@ -23,13 +23,14 @@
                 </ul>
             </nav>
 
-            <!--------Fechas y Buscador Localidad-------->
+            <!--------Imagen del alojamiento-------->
             <div style="width: 40%; float: left;">
                 <div class="header-text">
                 <img src="./Imgs_Alojamientos/IMG_6.webp" width="700" height="500">
                 </div>
             </div>
 
+            <!--------Caracteristicas del alojamiento-------->
             <div style="width: 40%; float: right;">
                 <div class="header-text">
                     <label for="huespedes" style="font-size: 24px;">Nombre:</label> <span style="font-size: 20px;">Casa Paredes</span>
@@ -44,40 +45,35 @@
                     <br>
                     <label for="huespedes" style="font-size: 24px;">Servicios:</label> <span style="font-size: 20px;">Business</span><br><br><br>
 
-                    <!--------Filtro Fechas-------->
-                    <form action="/action_page.php">
-                        <div style="width: 40%; float: left;">
-                            <!--Fecha Inicio-->
-                            <label for="date_ini" style="font-size: 24px;">Fecha de Entrada</label><br>
-                            <input type="date" id="date_ini" name="date_ini"><br><br>
-                        </div>
-    
-                        <div style="width: 40%; float: right;">
-                            <!--Fecha Fin-->
-                            <label for="date_fin" style="font-size: 24px;">Fecha de Salida</label><br>
-                            <input type="date" id="date_fin" name="date_fin">
-                            <br><br>
-                        </div>
-                        <input type="submit" class="button button1" value="Reservar">
-                    </form>
-
-                        <button class="button button1" onclick="document.getElementById('id02').style.display='block'" style="width: auto;">Pruebas</button>
-
-                        <!--Confirmar Reserva-->
-                        <div id="id02" class="modal">
-                            <!--Form-->
-                            <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
-    
-                                <div class="imgcontainer">
-                                    <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                    <img src="icon_vacation.png" alt="Avatar" class="avatar">
+                    <!--------Filtro Fechas + Modal para confirmar Reserva-------->
+                    <button class="button button1" onclick="document.getElementById('id02').style.display='block'" style="width: auto;">Reservar</button>
+                                       
+                    <!--Confirmar Reserva-->
+                    <div id="id02" class="modal">
+                        <!--Form-->
+                        <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+                            <div class="imgcontainer">
+                                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                <img src="icon_vacation.png" alt="Avatar" class="avatar">
+                            </div>
+                                    
+                            <div class="container" style="padding: 16px">
+                                <h1 style="font-size: 24px;">Confirmar Reserva</h1>
+                                <br>
+                                 
+                                <div style="width: 40%; float: left;">
+                                    <!--Fecha Inicio-->
+                                    <label for="date_ini" style="font-size: 24px;">Fecha de Entrada</label><br>
+                                    <input type="date" id="date_ini" name="date_ini"><br><br>
                                 </div>
     
-                                <div class="container" style="padding: 16px">
-    
-                                    <h1 style="font-size: 24px;">Confirmar Reserva</h1>
-                                    <br>
-    
+                                <div style="width: 40%; float: right;">
+                                    <!--Fecha Fin-->
+                                    <label for="date_fin" style="font-size: 24px;">Fecha de Salida</label><br>
+                                    <input type="date" id="date_fin" name="date_fin">                                    
+                                </div>
+
+                                <div style="width: 40%; float: bottom;">
                                     <!-- Mensaje -->
                                     <label for="message" style="font-size: 16px;"><b>Mensaje para el anfitrión</b></label><br>
                                     <textarea class="form-control" rows="5" cols="82" name="biografia" id="biografia"></textarea><br>
@@ -85,22 +81,15 @@
                                     <!--Pago-->
                                     <input type="checkbox" id="pago" name="pago" value="Boat"><label for="page" style="font-size: 18px;"><b> Fraccionar Pago</b></label>
                                     
-                                    <!-- Email 
-                                    <input type="text" placeholder="Correo Electrónico" name="email" required/><br><br>-->
-
-                                    <!-- Submit Button -->
-                                    <button type="submit">Login</button>    
                                 </div>
-                            </form>
-                        </div>
-
-
-                    <!--</form>-->
-
+                                <!-- Submit Button -->
+                                <button type="submit">Confirmar reserva</button>
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -119,12 +108,21 @@
     <!--Script-->
     <script>
         // Get the modal
-        var modal = document.getElementById('id01');
+        var modal = document.getElementById('id02');
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
         if (event.target == modal) {
         modal.style.display = "none";
         }
+        }
+    </script>
+    
+    <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
+    <script type="text/javascript">
+        window.onload=function(){
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementsByName("date_ini")[0].setAttribute('min', today);
+            document.getElementsByName("date_fin")[0].setAttribute('min', today);
         }
     </script>
 

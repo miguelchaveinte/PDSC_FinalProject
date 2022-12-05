@@ -69,15 +69,7 @@
                         <td><a href="info_alojamiento.html"><img src="./Imgs_Alojamientos/img1.jpeg" alt="VacationAsHome"></a></td>
                       <td>150€</td>
                       <td>3</td>
-                      <td>
-                        <form action="">
-                        <div class="stars-outer">
-                            <div class="stars-inner">
-                            </div>
-                        </div>
-                        </form>
-
-                      </td>
+                      <td>4.5</td>
                       <td>600€</td>
                     </tr>
 
@@ -85,11 +77,7 @@
                         <td><a href="info_alojamiento.html"><img src="./Imgs_Alojamientos/img5.jpeg" alt="VacationAsHome"></a></td>
                         <td>30€</td>
                         <td>3</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>5.0</td>
                         <td>100€</td>
                       </tr>
 
@@ -97,11 +85,7 @@
                         <td><img src="./Imgs_Alojamientos/img3.jpeg" alt="VacationAsHome"></td>
                         <td>100€</td>
                         <td>3</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>3.0</td>
                         <td>300€</td>
                     </tr>
 
@@ -109,11 +93,7 @@
                         <td><img src="./Imgs_Alojamientos/img4.jpeg" alt="VacationAsHome"></td>
                         <td>10€</td>
                         <td>3</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>3.5</td>
                         <td>40€</td>
                     </tr>
 
@@ -230,27 +210,6 @@
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         autocomplete(document.getElementById("myInput"), countries);
         </script>
-
-
-        <script>
-            const ratings = {
-            hotel_a: 2.8,
-            hotel_b: 3.3,
-            hotel_c: 1.9,
-            hotel_d: 4.3,
-            hotel_e: 4.74 };
-
-
-            // total number of stars
-            const starTotal = 5;
-
-            for (const rating in ratings) {
-            const starPercentage = ratings[rating] / starTotal * 100;
-            const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
-            document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded;
-            }
-        </script>
-
 
     
 </body>
