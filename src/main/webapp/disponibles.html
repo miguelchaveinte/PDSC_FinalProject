@@ -59,9 +59,18 @@
 
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
-                <div class="header-text">                
+                <div class="header-text">
+                <!--Select para filtros-->
+                <label for="my-select" style="font-size: 24px;">Filtrar por:</label>
+                <select id="my-select" onchange="sortTable()">
+                    <option>Seleccione</option>
+                      <option value="option-1">De menor a mayor capacidad</option>
+                      <option value="option-2">De mayor a menor capacidad</option>
+                      <option value="option-3">De menor a mayor valoración</option>
+                      <option value="option-4">De mayor a menor valoración</option>
+                </select><br><br>
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
-                <table>
+                <table id="myTable">
                     <!--Cabeceras Tabla-->
                     <tr>
                       <th>Descripción</th>
@@ -76,15 +85,7 @@
                         <td><img src="./Imgs_Alojamientos/img1.jpeg" alt="VacationAsHome"></td>
                       <td>150€</td>
                       <td>15</td>
-                      <td>
-                        <form action="">
-                        <div class="stars-outer">
-                            <div class="stars-inner">
-                            </div>
-                        </div>
-                        </form>
-
-                      </td>
+                      <td>4.5</td>
                       <td>600€</td>
                     </tr>
 
@@ -92,11 +93,7 @@
                         <td><img src="./Imgs_Alojamientos/img5.jpeg" alt="VacationAsHome"></td>
                         <td>30€</td>
                         <td>5</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>5.0</td>
                         <td>100€</td>
                       </tr>
 
@@ -104,11 +101,7 @@
                         <td><img src="./Imgs_Alojamientos/img3.jpeg" alt="VacationAsHome"></td>
                         <td>100€</td>
                         <td>8</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>3.0</td>
                         <td>300€</td>
                     </tr>
 
@@ -116,11 +109,7 @@
                         <td><img src="./Imgs_Alojamientos/img4.jpeg" alt="VacationAsHome"></td>
                         <td>10€</td>
                         <td>3</td>
-                        <td>
-                            <div class="stars-outer">
-                                <div class="stars-inner"></div>
-                            </div>
-                        </td>
+                        <td>3.5</td>
                         <td>40€</td>
                     </tr>
 
@@ -238,27 +227,94 @@
         autocomplete(document.getElementById("myInput"), countries);
         </script>
 
-
+        <!-----------------Filtro de Tablas----------------->
         <script>
-            const ratings = {
-            hotel_a: 2.8,
-            hotel_b: 3.3,
-            hotel_c: 1.9,
-            hotel_d: 4.3,
-            hotel_e: 4.74 };
+        function sortTable() {
 
+          var select = document.getElementById('my-select');
+          var selectedOption = select.options[select.selectedIndex].value;
+          /*console.log(selectedOption);*/
 
-            // total number of stars
-            const starTotal = 5;
+          var table, rows, switching, i, x, y, shouldSwitch;
+          table = document.getElementById("myTable");
+          switching = true;
+          /*Make a loop that will continue until
+          no switching has been done:*/
+          while (switching) {
+              //start by saying: no switching is done:
+              switching = false;
+              rows = table.rows;
+              /*Loop through all table rows (except the
+              first, which contains table headers):*/
+              for (i = 1; i < (rows.length - 1); i++) {
+                  //start by saying there should be no switching:
+                  shouldSwitch = false;
+                  /*Get the two elements you want to compare,
+                  one from current row and one from the next:*/
 
-            for (const rating in ratings) {
-            const starPercentage = ratings[rating] / starTotal * 100;
-            const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
-            document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded;
+                  /*Comprobamos tipo de filtro*/
+                  if (selectedOption == "option-1" || selectedOption == "option-2"){
+                      /*Filtro por capacidad del alojamiento*/
+                      x = rows[i].getElementsByTagName("TD")[2];
+                      y = rows[i + 1].getElementsByTagName("TD")[2];
+
+                      //Comprobamos el orden de filtro
+                      if (selectedOption == "option-1"){
+                          if (parseInt(x.innerHTML,10) > parseInt(y.innerHTML,10)) {
+                              //if so, mark as a switch and break the loop:
+                              shouldSwitch = true;
+                              break;
+                          }
+                      } else{
+                          if (parseInt(x.innerHTML,10) < parseInt(y.innerHTML,10)) {
+                              //if so, mark as a switch and break the loop:
+                              shouldSwitch = true;
+                              break;
+                          }
+                      }
+
+                  } else{
+                      /*Filtro por valoracion del alojamiento*/
+                      x = rows[i].getElementsByTagName("TD")[3];
+                      y = rows[i + 1].getElementsByTagName("TD")[3];
+
+                      //Comprobamos el orden de filtro
+                      if (selectedOption == "option-3"){
+                          if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+                              //if so, mark as a switch and break the loop:
+                              shouldSwitch = true;
+                              break;
+                          }
+                      } else if (selectedOption == "option-4"){
+                          if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+                              //if so, mark as a switch and break the loop:
+                              shouldSwitch = true;
+                              break;
+                          }
+                      }
+                  }
+              } /*Fin bucle for*/
+
+              if (shouldSwitch) {
+                  /*If a switch has been marked, make the switch
+                  and mark that a switch has been done:*/
+                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                  switching = true;
+              }
+          }
+        }
+        </script>
+        
+        <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
+        <script type="text/javascript">
+            window.onload=function(){
+                var today = new Date().toISOString().split('T')[0];
+                document.getElementsByName("date_ini")[0].setAttribute('min', today);
+                document.getElementsByName("date_fin")[0].setAttribute('min', today);
             }
         </script>
 
 
-    
+ 
 </body>
 </html>
