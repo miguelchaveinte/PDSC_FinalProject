@@ -7,6 +7,7 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheer" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="localidades_spain.js"></script>
 </head>
 
 
@@ -30,25 +31,25 @@
                     <br>
                     
                     <!--Make sure the form has the autocomplete function switched off:-->
-                    <form autocomplete="off" action="/action_page.php">
+                    <form autocomplete="off" name="myForm" action="/action_page.php" onsubmit="return checkLocalidad()">
                         <!--------Filtro Fechas-------->
                         <div style="width: 40%; float: left;">
                             <!--Fecha Inicio-->
                             <label for="date_ini" style="font-size: 24px;">Fecha de Entrada</label><br>
-                            <input type="date" id="date_ini" name="date_ini"><br><br>
+                            <input type="date" id="date_ini" name="date_ini" onchange="changeDate()" required><br><br>
                         </div>
 
                         <div style="width: 40%; float: right;">
                             <!--Fecha Fin-->
                             <label for="date_fin" style="font-size: 24px;">Fecha de Salida</label><br>
-                            <input type="date" id="date_fin" name="date_fin">
+                            <input type="date" id="date_fin" name="date_fin" required>
                             <br><br>
                         </div>
 
                         <!--Buscar Localidad-->                    
                         <div class="autocomplete" style="width:300px;">
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
-                            <input id="myInput" type="text" name="myCountry" placeholder="Localidad">
+                            <input id="myInput" type="text" name="myLocalidad" placeholder="Localidad" required>
                         </div>
                         <br>
                         <input type="submit" class="button button1" value="Buscar">
@@ -220,11 +221,23 @@
           });
         }
         
-        /*An array containing all the country names in the world:*/
-        var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+        /*Array que contiene las localidades de España*/
+        var local_spain = localidades;
         
-        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-        autocomplete(document.getElementById("myInput"), countries);
+        /*initiate the autocomplete function on the "myInput" element, and pass along the locations array as possible autocomplete values:*/
+        autocomplete(document.getElementById("myInput"), local_spain);        
+        </script>
+        
+        <!-- Comprobamos que la localidad sea correcta -->
+        <script>
+            function checkLocalidad(){
+                //Obtenemos el valor de la localidad seleccionada
+                let x = document.forms["myForm"]["myLocalidad"].value;
+                if (!(localidades.includes(x))) {
+                  alert("Introduzca una localidad válida");
+                  return false;
+                }
+            }
         </script>
 
         <!-----------------Filtro de Tablas----------------->
@@ -312,6 +325,24 @@
                 document.getElementsByName("date_ini")[0].setAttribute('min', today);
                 document.getElementsByName("date_fin")[0].setAttribute('min', today);
             }
+        </script>
+        
+        <!--Filtramos la fecha de salida una vez escojamos la fecha de entrada
+        1. Evitamos fecha de salida previa a la de entrada.
+        2. Establecemos una fecha de salida maxima segun el [RN-6].
+        -->
+        <script>
+          function changeDate(){
+            var min_date = document.getElementById("date_ini").value;
+            //Maximo tiempo de alquiler es 1 mes(30 dias) [RN-6]
+            var date = new Date(min_date);
+            date.setDate(date.getDate() + 30);
+            //Formato correcto
+            var max_date = date.toISOString().substring(0,10);
+
+            document.getElementsByName("date_fin")[0].setAttribute('min', min_date);
+            document.getElementsByName("date_fin")[0].setAttribute('max', max_date);
+          }
         </script>
 
 
