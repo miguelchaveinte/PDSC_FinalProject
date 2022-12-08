@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<%-- 
+    Document   : disponibles
+    Created on : 08-dic-2022, 1:54:33
+    Author     : Jhon
+--%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@page import="Modelo.Alojamiento"%>
+<%@page import="java.util.ArrayList"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,38 +88,24 @@
                       <th>Capacidad</th>
                       <th>Valoración</th>
                       <th>Imagen</th>
-                      
                     </tr>
 
-                    <!--Rows de la tabla
-                    <tr>
-                       <td>Casa Paredes</td>
-                        <td>15</td>
-                        <td>4.5</td>
-                        <td><img src="./Imgs_Alojamientos/img1.jpeg" alt="VacationAsHome"></td>
-                    </tr>
-
-                    <tr>
-                       <td>Casa Azul</td>
-                        <td>5</td>
-                        <td>4.5</td>
-                        <td><img src="./Imgs_Alojamientos/img5.jpeg" alt="VacationAsHome"></td>
-                    </tr>
-
-                    <tr>
-                       <td>Casa Pedro</td>
-                        <td>8</td>
-                        <td>3.0</td>
-                        <td><img src="./Imgs_Alojamientos/img3.jpeg" alt="VacationAsHome"></td>
-                    </tr>
-
-                    <tr>
-                       <td>Casa Santos</td>
-                        <td>3</td>
-                        <td>3.5</td>
-                        <td><img src="./Imgs_Alojamientos/img4.jpeg" alt="VacationAsHome"></td>
-                    </tr>
-                    -->
+                    <!--Rows de la tabla-->
+                    <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
+                    <%
+                        ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
+                        out.println(alojamientos_disponibles);
+                        for (Alojamiento alojamiento : alojamientos_disponibles) {
+                    %>
+                      <tr>
+                        <td><%= alojamiento.getNombre() %></td>
+                        <td><%= alojamiento.getMaximoHuespedes() %></td>
+                        <td><%= alojamiento.getNumeroDormitorios()%></td>
+                        <td><%= alojamiento.getNumeroCamas()%></td>
+                      </tr>
+                      <%
+                        }
+                      %>
 
                 </table>
                 </div>
@@ -117,7 +113,6 @@
 
         </div>
     </div>
-
 
     <!-----------------Autocompletado del buscador de Localidades----------------->
     <script>

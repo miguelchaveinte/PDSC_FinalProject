@@ -4,10 +4,17 @@
  */
 package Containers;
 
-import Datos.DAO.UsuarioRegistradoDB;
-import Modelo.UsuarioRegistrado;
+import Datos.DAO.AlojamientoDB;
+import Modelo.Alojamiento;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.console;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +27,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jhon
  */
-@WebServlet(name = "Registro", urlPatterns = {"/Registro"})
-public class Registro extends HttpServlet {
+@WebServlet(name = "Disponibles", urlPatterns = {"/Disponibles"})
+public class Disponibles extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +47,10 @@ public class Registro extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
+            out.println("<title>Servlet Disponibles</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Registro at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Disponibles at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +68,37 @@ public class Registro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
+        String entrada = request.getParameter("date_ini");
+        String salida = request.getParameter("date_fin");
+        /*Parseamos las fechas de entrada y salida*/
+        SimpleDateFormat formatoFechaEntrada = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFechaSalida = new SimpleDateFormat("dd-MM-yyyy");
+
+        /*Date fecha_entrada = formatoFechaEntrada.parse(entrada);
+        Date fecha_salida = formatoFechaSalida.parse(salida);*/
+        String localidad = request.getParameter("myLocalidad");
+
+        ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
+
+        /*De momento solo compruebo la localida faltaria comprobar las fechas --> TODO*/
+        try {
+            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad);
+        } catch (SQLException ex) {
+                Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try (PrintWriter out = response.getWriter()) {
+            out.println("Probando");
+            out.println(alojamientos_disponibles);
+        }
+        
+
+        request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
+        String url = "/disponibles.jsp";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -75,46 +112,7 @@ public class Registro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Registro at baby: " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
-
-        UsuarioRegistrado user = new UsuarioRegistrado();
-        request.setCharacterEncoding("UTF-8");
-        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
-        String email = request.getParameter("email");
-        String password = request.getParameter("psw");
-
-        int id=-1;
-        String url="";
-
-        if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
-            url = "/inicio_2.html";
-            user.setContraseña(password);
-            user.setEmail(email);
-            user.setId(id);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            // forward the request and response to the view
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-            dispatcher.forward(request, response);
-            //PrintWriter out=response.getWriter();
-            //out.println();
-        } else {
-            PrintWriter out=response.getWriter();
-            out.println("Revisa tus creedenciales");
-        }
-
+        processRequest(request, response);
     }
 
     /**
