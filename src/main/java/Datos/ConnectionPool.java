@@ -27,7 +27,7 @@ public class ConnectionPool {
 	private ConnectionPool() {
 		try {
 			InitialContext ic = new InitialContext();
-			dataSource = (DataSource) ic.lookup("java:comp/env/jdbc/db_vacationashome");
+			dataSource = (DataSource) ic.lookup("java:/comp/env/jdbc/db_vacationashome");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -48,7 +48,22 @@ public class Alojamiento {
     }
 
     public Alojamiento(int idAlojamiento, int idAnfitrion, int idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad){
-
+        
+        setFechaEntradaEnSimpleBnB(fechaEntradaEnSimpleBnB);
+        setIdAlojamiento(idAlojamiento);
+        setIdAnfitrion(idAnfitrion);
+        setIdFotoPortada(idFotoPortada);
+        setIdPrecioActual(idPrecioActual);
+        setLatitud(latitud);
+        setLocalidad(localidad);
+        setLongitud(longitud);
+        setMaximoHuespedes(maximoHuespedes);
+        setNombre(nombre);
+        setNumeroBanos(numeroBanos);
+        setNumeroCamas(numeroCamas);
+        setNumeroDormitorios(numeroDormitorios);
+        setReservaRequiereAceptacionPropietario(reservaRequiereAceptacionPropietario);
+        setUbicacionDescrita(ubicacionDescrita);
     }
 
     public int getIdAlojamiento() {

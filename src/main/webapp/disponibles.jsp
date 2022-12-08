@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : disponibles
     Created on : 08-dic-2022, 1:54:33
@@ -58,8 +59,12 @@
 
                         <!--Buscar Localidad-->                    
                         <div class="autocomplete" style="width:300px;">
+                            <%
+                                String localizacion = (String)request.getAttribute("local");
+                                System.out.println(localizacion);
+                                %>
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
-                            <input id="myInput" type="text" name="myLocalidad" placeholder="Localidad" required>
+                            <input id="myInput" type="text" name="myLocalidad" placeholder=<%= localizacion %> required>
                         </div>
                         <br>
                         <input type="submit" class="button button1" value="Buscar">
@@ -75,7 +80,7 @@
                 <label for="my-select" style="font-size: 24px;">Filtrar por:</label>
                 <select id="my-select" onchange="sortTable()">
                     <option>Seleccione</option>
-                      <option value="option-1">De menor a mayor capacidad</option>
+                    <option value="option-1" onclick="">De menor a mayor capacidad</option>
                       <option value="option-2">De mayor a menor capacidad</option>
                       <option value="option-3">De menor a mayor valoración</option>
                       <option value="option-4">De mayor a menor valoración</option>
@@ -94,10 +99,10 @@
                     <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
                     <%
                         ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
-                        out.println(alojamientos_disponibles);
                         for (Alojamiento alojamiento : alojamientos_disponibles) {
+                            
                     %>
-                      <tr>
+                      <tr id="1">
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getNumeroDormitorios()%></td>

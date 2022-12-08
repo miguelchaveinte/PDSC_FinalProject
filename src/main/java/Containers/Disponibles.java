@@ -6,10 +6,12 @@ package Containers;
 
 import Datos.DAO.AlojamientoDB;
 import Modelo.Alojamiento;
+import com.mysql.cj.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.console;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,33 +74,39 @@ public class Disponibles extends HttpServlet {
         /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
         String entrada = request.getParameter("date_ini");
         String salida = request.getParameter("date_fin");
+        
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         /*Parseamos las fechas de entrada y salida*/
-        SimpleDateFormat formatoFechaEntrada = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat formatoFechaSalida = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaEntrada;
+        Date fechaSalida;
+        
+        
 
         /*Date fecha_entrada = formatoFechaEntrada.parse(entrada);
         Date fecha_salida = formatoFechaSalida.parse(salida);*/
         String localidad = request.getParameter("myLocalidad");
+        
+        request.setAttribute("local", localidad);
 
         ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
 
         /*De momento solo compruebo la localida faltaria comprobar las fechas --> TODO*/
         try {
-            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad);
+            fechaEntrada = date.parse(entrada);
+            fechaSalida = date.parse(salida);
+            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, fechaEntrada, fechaSalida);
+            request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
+            String url = "/disponibles.jsp";
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         } catch (SQLException ex) {
                 Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try (PrintWriter out = response.getWriter()) {
-            out.println("Probando");
-            out.println(alojamientos_disponibles);
+        } catch (ParseException ex) {
+            Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
         }
         
 
-        request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
-        String url = "/disponibles.jsp";
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+        
     }
 
     /**
