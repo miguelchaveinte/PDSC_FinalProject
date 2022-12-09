@@ -6,10 +6,8 @@ package Containers;
 
 import Datos.DAO.AlojamientoDB;
 import Modelo.Alojamiento;
-import com.mysql.cj.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.console;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,13 +70,14 @@ public class Disponibles extends HttpServlet {
             throws ServletException, IOException {
         
         /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
+        
         String entrada = request.getParameter("date_ini");
         String salida = request.getParameter("date_fin");
         
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        /*Parseamos las fechas de entrada y salida*/
+        /*SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        /*Parseamos las fechas de entrada y salida
         Date fechaEntrada;
-        Date fechaSalida;
+        Date fechaSalida;*/
         
         
 
@@ -92,9 +91,9 @@ public class Disponibles extends HttpServlet {
 
         /*De momento solo compruebo la localida faltaria comprobar las fechas --> TODO*/
         try {
-            fechaEntrada = date.parse(entrada);
-            fechaSalida = date.parse(salida);
-            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, fechaEntrada, fechaSalida);
+            /*fechaEntrada = date.parse(entrada);
+            fechaSalida = date.parse(salida);*/
+            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, entrada, salida);
             request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
             String url = "/disponibles.jsp";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);

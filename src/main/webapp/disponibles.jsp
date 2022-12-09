@@ -99,10 +99,11 @@
                     <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
                     <%
                         ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
+                        System.out.println("En el JSP: " + alojamientos_disponibles);
                         for (Alojamiento alojamiento : alojamientos_disponibles) {
                             
                     %>
-                      <tr id="1">
+                      <tr>
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getNumeroDormitorios()%></td>
