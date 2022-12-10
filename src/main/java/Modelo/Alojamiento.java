@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class Alojamiento {
 
     private int idAlojamiento;
     private int idAnfitrion;
-    private int idFotoPortada;
+    private String idFotoPortada;
     private int idPrecioActual;
     private Date fechaEntradaEnSimpleBnB;
     private String nombre;
@@ -27,12 +28,12 @@ public class Alojamiento {
     private float latitud;
     private Boolean reservaRequiereAceptacionPropietario;
     private String localidad;
-
+    private double valoracion;
 
     public Alojamiento(){
         idAlojamiento = 0;
         idAnfitrion = 0;
-        idFotoPortada = 0;
+        idFotoPortada = "";
         idPrecioActual = 0;
         fechaEntradaEnSimpleBnB = null;
         nombre = "";
@@ -45,9 +46,10 @@ public class Alojamiento {
         latitud = 0;
         reservaRequiereAceptacionPropietario = false;
         localidad = "";
+        valoracion = 0;
     }
 
-    public Alojamiento(int idAlojamiento, int idAnfitrion, int idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad){
+    public Alojamiento(int idAlojamiento, int idAnfitrion, String idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad, double valoracion){
         
         setFechaEntradaEnSimpleBnB(fechaEntradaEnSimpleBnB);
         setIdAlojamiento(idAlojamiento);
@@ -64,8 +66,18 @@ public class Alojamiento {
         setNumeroDormitorios(numeroDormitorios);
         setReservaRequiereAceptacionPropietario(reservaRequiereAceptacionPropietario);
         setUbicacionDescrita(ubicacionDescrita);
+        setValoracion(valoracion);
     }
 
+    public double getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(double valoracion) {
+        this.valoracion = valoracion;
+    }
+
+    
     public int getIdAlojamiento() {
         return idAlojamiento;
     }
@@ -82,11 +94,11 @@ public class Alojamiento {
         this.idAnfitrion = idAnfitrion;
     }
 
-    public int getIdFotoPortada() {
+    public String getIdFotoPortada() {
         return idFotoPortada;
     }
 
-    public void setIdFotoPortada(int idFotoPortada) {
+    public void setIdFotoPortada(String idFotoPortada) {
         this.idFotoPortada = idFotoPortada;
     }
 

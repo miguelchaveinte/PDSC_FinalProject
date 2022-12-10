@@ -64,7 +64,7 @@
                                 System.out.println(localizacion);
                                 %>
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
-                            <input id="myInput" type="text" name="myLocalidad" placeholder=<%= localizacion %> required>
+                            <input id="myInput" type="text" name="myLocalidad" placeholder=Escribe... required>
                         </div>
                         <br>
                         <input type="submit" class="button button1" value="Buscar">
@@ -85,6 +85,7 @@
                       <option value="option-3">De menor a mayor valoración</option>
                       <option value="option-4">De mayor a menor valoración</option>
                 </select><br><br>
+                <label id= "localidad" for="my-select" style="font-size: 24px;">Localidad: <%= localizacion %></label>
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
                     <!--Cabeceras Tabla-->
@@ -106,8 +107,8 @@
                       <tr>
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
-                        <td><%= alojamiento.getNumeroDormitorios()%></td>
-                        <td><%= alojamiento.getNumeroCamas()%></td>
+                        <td><%= alojamiento.getValoracion()%></td>
+                        <td><img src = <%= alojamiento.getIdFotoPortada()%>></td>
                       </tr>
                       <%
                         }

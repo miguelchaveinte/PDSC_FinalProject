@@ -33,13 +33,13 @@ public class AlojamientoDB {
         ArrayList<Alojamiento> alojamientos = new ArrayList<Alojamiento>();
         PreparedStatement ps = null;
         ResultSet rs = null;
+        PreparedStatement ps2 = null;
+        ResultSet rs2 = null;
         //Falta obtener la ValoracionGlobal y la imagen de los Alojamientos --> TODO
         String lista = "SELECT * FROM ALOJAMIENTO WHERE idAlojamiento NOT IN (SELECT idAlojamiento FROM RESERVA WHERE(fechaEntrada <= ? AND fechaSalida >= ?) OR (fechaSalida <= ? AND fechaSalida >= ?))"
         + "AND localidad = ?";
         
-        //String fechas = "SELECT fechaEntrada, fechaSalida FROM RESERVA WHERE idAlojamiento = ?";
-        Date fecha1p = new Date(2022,12,12);
-        Date fecha2p = new Date(2022,12,18);
+        String valoraciones = "SELECT globalValoracion FROM VALORACION WHERE idAlojamiento = ?";
 
         try {
             ps = connection.prepareStatement(lista);
@@ -53,30 +53,21 @@ public class AlojamientoDB {
             System.out.println("CARENCIAS2");
             //ps2 = connection.prepareStatement(fechas);
             while(rs.next()){  
-                //ps2.setInt(1,rs.getInt("idAlojamiento")); 
-                //rs2 = ps2.executeQuery();
-                /*ArrayList<Date> reservas = new ArrayList<Date>();
+                ps2 = connection.prepareStatement(valoraciones);
+                ps2.setInt(1,rs.getInt("idAlojamiento")); 
+                rs2 = ps2.executeQuery();
+                ArrayList<Date> reservas = new ArrayList<Date>();
+                double valoracion = 0;
+                int contador = 0;
                 while(rs2.next()){
-                    reservas.add(date.parse(rs2.getString("fechaEntrada")));
-                    reservas.add(date.parse(rs2.getString("fechaSalida")));
+                    valoracion += rs2.getInt("globalValoracion");
+                    contador++;
                 }
-                boolean sirve = false;
-                if(reservas.get(0).after(fechaSalida)){
-                    sirve = true;
-                }else if(fechaEntrada.after(reservas.get(reservas.size() - 1))){
-                    sirve = true;
-                }
-                for (int j = 1; j<reservas.size()-1; j++) {
-                    if (now.after(startDate) && now.before(endDate)) {
-        
-                    } else {
-        
-                    }
-                }*/
-                
-                Alojamiento alojamiento=new Alojamiento(rs.getInt("idAlojamiento"),rs.getInt("idAnfitrion"),rs.getInt("idFotoPortada"),rs.getInt("idPrecioActual"),rs.getDate("fechaEntradaEnSimpleBnB"),rs.getString("nombre"),rs.getInt("maximoHuespedes"),rs.getInt("numeroDormitorios"),rs.getInt("numeroCamas"),rs.getInt("numeroBanos"),rs.getString("ubicacionDescrita"),rs.getFloat("longitud"),rs.getFloat("latitud"),rs.getBoolean("reservaRequiereAceptacionPropietario"),localidad);
+                valoracion = valoracion / contador;
+                Alojamiento alojamiento=new Alojamiento(rs.getInt("idAlojamiento"),rs.getInt("idAnfitrion"),rs.getString("idFotoPortada"),rs.getInt("idPrecioActual"),rs.getDate("fechaEntradaEnSimpleBnB"),rs.getString("nombre"),rs.getInt("maximoHuespedes"),rs.getInt("numeroDormitorios"),rs.getInt("numeroCamas"),rs.getInt("numeroBanos"),rs.getString("ubicacionDescrita"),rs.getFloat("longitud"),rs.getFloat("latitud"),rs.getBoolean("reservaRequiereAceptacionPropietario"),localidad, valoracion);
                 alojamientos.add(alojamiento);
             }
+                
             System.out.println("En la DB: " + alojamientos);
             ps.close();
             pool.freeConnection(connection);
