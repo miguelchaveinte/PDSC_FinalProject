@@ -96,6 +96,8 @@ public class Registro extends HttpServlet {
 
         int id=-1;
         String url="";
+        boolean error = false;
+        int tipoError = 0;
 
         if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
             url = "/inicio_2.html";
@@ -110,11 +112,32 @@ public class Registro extends HttpServlet {
             dispatcher.forward(request, response);
             //PrintWriter out=response.getWriter();
             //out.println();
-        } else {
-            PrintWriter out=response.getWriter();
-            out.println("Revisa tus creedenciales");
+        }else{/*else if(UsuarioRegistradoDB.emailExists(email) == false){
+            error = true;
+            tipoError = 1;
+        }else{
+            error = true;
+            tipoError = 2;
+        }*/
+        // System.out.println("EL tipo del fallo es: "+tipoError);
+       /* if(error){
+            if(tipoError==1){*/
+                PrintWriter out=response.getWriter();
+                out.println("Revisa tus creedenciales");
+               // request.setAttribute("tipoerror", tipoError);
+               // String urlerror1 = "/inicio_1.jsp";
+               // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(urlerror1);
+               // dispatcher.forward(request, response);
+            //}else if(tipoError == 2){
+               // PrintWriter out=response.getWriter();
+              //  out.println("Revisa la sintaxis de la contraseña");
+              //  request.setAttribute("tipoerror", tipoError);
+              //  String urlerror2 = "/inicio_1.jsp";
+              //  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(urlerror2);
+             //   dispatcher.forward(request, response);
+           // }
+       // }
         }
-
     }
 
     /**

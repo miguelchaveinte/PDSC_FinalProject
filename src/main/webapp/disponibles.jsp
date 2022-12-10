@@ -86,6 +86,7 @@
                       <option value="option-4">De mayor a menor valoración</option>
                 </select><br><br>
                 <label id= "localidad" for="my-select" style="font-size: 24px;">Localidad: <%= localizacion %></label>
+         
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
                     <!--Cabeceras Tabla-->
@@ -101,7 +102,18 @@
                     <%
                         ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
                         System.out.println("En el JSP: " + alojamientos_disponibles);
-                        for (Alojamiento alojamiento : alojamientos_disponibles) {
+                        int tipoerror = (int)request.getAttribute("tipoerror");
+                        System.out.println("El error vale: "+tipoerror);
+                        if(tipoerror == 1){
+                    %>
+                    </table>
+                    <br>
+                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidad</label>
+               
+                        
+                            <%        
+                        }else{
+                            for (Alojamiento alojamiento : alojamientos_disponibles) {
                             
                     %>
                       <tr>
@@ -111,10 +123,13 @@
                         <td><img src = <%= alojamiento.getIdFotoPortada()%>></td>
                       </tr>
                       <%
+                          }
+                      %>
+                       </table>
+                       <%
                         }
                       %>
-
-                </table>
+            
                 </div>
             </div>        
 

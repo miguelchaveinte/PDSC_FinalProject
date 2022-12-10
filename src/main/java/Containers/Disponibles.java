@@ -69,23 +69,23 @@ public class Disponibles extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
+        /* Creacion booleano que detecta errores */
+        boolean error = false;
+        int tipoError = 0;
         
+        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
         String entrada = request.getParameter("date_ini");
         String salida = request.getParameter("date_fin");
         
-        /*SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        /*Parseamos las fechas de entrada y salida
-        Date fechaEntrada;
-        Date fechaSalida;*/
-        
+
+       
         
 
         /*Date fecha_entrada = formatoFechaEntrada.parse(entrada);
         Date fecha_salida = formatoFechaSalida.parse(salida);*/
         String localidad = request.getParameter("myLocalidad");
-        
         request.setAttribute("local", localidad);
+        
 
         ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
 
@@ -94,10 +94,29 @@ public class Disponibles extends HttpServlet {
             /*fechaEntrada = date.parse(entrada);
             fechaSalida = date.parse(salida);*/
             alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, entrada, salida);
-            request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
-            String url = "/disponibles.jsp";
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-            dispatcher.forward(request, response);
+
+            /* Si no existe alojamientos es null entonces error */
+            if(alojamientos_disponibles.isEmpty()){
+                error = true;
+                tipoError = 1;
+            }
+            
+            System.out.println("ERROR: "+tipoError);
+            if(error){
+                if(tipoError==1){
+                    request.setAttribute("tipoerror", tipoError);
+                    String url = "/disponibles.jsp";
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
+                }
+                
+            }else{
+                request.setAttribute("tipoerror", tipoError);
+                request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
+                String url = "/disponibles.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            }
         } catch (SQLException ex) {
                 Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
