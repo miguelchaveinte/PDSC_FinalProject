@@ -7,6 +7,7 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+        
 </head>
 
 
@@ -20,7 +21,7 @@
 
                     <div id="id01" class="modal">
                         <!--Form-->
-                        <form class="modal-content animate" action="Registro" method="post"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+                        <form class="modal-content animate">
 
                             <div class="imgcontainer">
                                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -34,14 +35,16 @@
 
                                 <!-- Email -->
                                 <label for="email"><b>Correo Electrónico</b></label><br>
-                                <input type="email" placeholder="Correo Electrónico" name="email" required><br><br>
+                                <input type="email" placeholder="Correo Electrónico" name="email" id="email" required><br><br>
 
                                 <!-- Password -->
                                 <label for="psw"><b>Contraseña</b></label>
-                                <input type="password" placeholder="Introduce tu contraseña" name="psw" required><br><br>
-
+                                <input type="password" placeholder="Introduce tu contraseña" name="password" id="password" required><br><br>
+                                
+                                <h4 id="erro1" style="display: none">Revisa tus creedenciales</h4>
+                                
                                 <!-- Submit Button -->
-                                <button type="submit">Login</button>
+                                <button id="submit1" type="submit">Login</button>
 
                             </div>
                         </form>
@@ -78,6 +81,49 @@
         }
         }
     </script>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+    <script>
+        $("#submit1").click(function() {
+            // Get the text from the two inputs.
+            var email = $("#email").val();
+            var password = $("#password").val();
+
+            var resultado=new XMLHttpRequest();
+            var emailUser=document.getElementById('email');
+
+        if(password!="" && email!="" && emailUser.checkValidity()){
+            
+            
+            // Ajax POST request.
+        resultado= $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/PDSC/Registro',
+            data: {"password": password,"email": email},
+            dataType: "text",
+             async: false,
+            success: function( datos ) {
+                return datos;
+            }
+        });
+             
+        if(resultado.responseText=="Revisa tus creedenciales\r\n") {
+            document.getElementById('erro1').style.display="block"; 
+            return false;
+        }else {
+            window.location.href= 'http://localhost:8080/PDSC/inicio_2.html';
+            return false;
+        }
+}
+});
+
+
+
+    </script>
+    
 </body>
 </html>

@@ -75,24 +75,12 @@ public class Registro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Registro at baby: " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
-
+        
         UsuarioRegistrado user = new UsuarioRegistrado();
         request.setCharacterEncoding("UTF-8");
         /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
         String email = request.getParameter("email");
-        String password = request.getParameter("psw");
+        String password = request.getParameter("password");
 
         int id=-1;
         String url="";
@@ -112,31 +100,9 @@ public class Registro extends HttpServlet {
             dispatcher.forward(request, response);
             //PrintWriter out=response.getWriter();
             //out.println();
-        }else{/*else if(UsuarioRegistradoDB.emailExists(email) == false){
-            error = true;
-            tipoError = 1;
         }else{
-            error = true;
-            tipoError = 2;
-        }*/
-        // System.out.println("EL tipo del fallo es: "+tipoError);
-       /* if(error){
-            if(tipoError==1){*/
-                PrintWriter out=response.getWriter();
-                out.println("Revisa tus creedenciales");
-               // request.setAttribute("tipoerror", tipoError);
-               // String urlerror1 = "/inicio_1.jsp";
-               // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(urlerror1);
-               // dispatcher.forward(request, response);
-            //}else if(tipoError == 2){
-               // PrintWriter out=response.getWriter();
-              //  out.println("Revisa la sintaxis de la contraseña");
-              //  request.setAttribute("tipoerror", tipoError);
-              //  String urlerror2 = "/inicio_1.jsp";
-              //  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(urlerror2);
-             //   dispatcher.forward(request, response);
-           // }
-       // }
+            PrintWriter out=response.getWriter();
+            out.println("Revisa tus creedenciales");
         }
     }
 

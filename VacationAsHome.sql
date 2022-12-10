@@ -1,3 +1,9 @@
+/* 
+CREATE DATABASE db_VacationAsHome;
+USE db_VacationAsHome;
+
+BORRAR TABLAS */
+
 DROP TABLE IF EXISTS
 FOTO,
 PRECIO,
@@ -47,10 +53,9 @@ CREATE TABLE ANFITRION(
 );
 
 CREATE TABLE FOTO(
-  	id                      INTEGER AUTO_INCREMENT,
     etiqueta                VARCHAR(50),
     imagen                  VARCHAR(250),					/*Cuidao con el tipo-> TIPO BLOB*/
-    primary key(id)
+    primary key(imagen)
     /*Le meteremos el id Alojamiento despues con alter table*/
 );
 
@@ -70,7 +75,7 @@ CREATE TABLE PRECIO(
 CREATE TABLE ALOJAMIENTO(
     idAlojamiento           INTEGER AUTO_INCREMENT,
     idAnfitrion             INTEGER NOT NULL,
-    idFotoPortada           INTEGER,
+    idFotoPortada           VARCHAR(250),
     idPrecioActual          INTEGER NOT NULL,
     fechaEntradaEnSimpleBnB DATE NOT NULL,
     nombre                  VARCHAR(50) NOT NULL,
@@ -87,7 +92,7 @@ CREATE TABLE ALOJAMIENTO(
     localidad               VARCHAR(50),
     primary key(idAlojamiento),
     foreign key(idAnfitrion) references ANFITRION(idAnfitrion),
-    foreign key(idFotoPortada) references FOTO(id),
+    foreign key(idFotoPortada) references FOTO(imagen),
     foreign key(idPrecioActual) references PRECIO(idPrecio)
 );
 
@@ -158,7 +163,7 @@ CREATE TABLE CARACTERISTICA(
 CREATE TABLE ROLUSUARIO(
     idUsuario               INTEGER NOT NULL,
     rol                     ENUM('cliente','anfitrion') NOT NULL,
-    PRIMARY KEY (idUsuario),
+    PRIMARY KEY (idUsuario,rol),
     Foreign Key (idUsuario) REFERENCES USUARIOREGISTRADO(id)
 
 );
@@ -189,20 +194,32 @@ INSERT INTO PRECIO VALUES (8,67.0,190.0,420.0,2670.0,"2022-9-25","2022-12-31",1)
 INSERT INTO PRECIO VALUES (9,102.0,340.0,780.0,3900.0,"2022-7-10","2022-12-31",1);
 INSERT INTO PRECIO VALUES (10,62.0,140.0,420.0,2910.0,"2022-11-10","2022-12-30",2);
 
-INSERT INTO ALOJAMIENTO VALUES (1,1,1,1,"2022-07-30",'Casa Pedro',10,4,7,3,'Apartamento acogedor y amplio',10.35,50.36,FALSE,"Peñafiel");
-INSERT INTO ALOJAMIENTO VALUES (2,4,2,2,"2022-07-22",'Casa Camino Real',20,6,14,6,'Estancia muy apmlia y con buenas vistas',18.35,20.36,FALSE,"Boecillo");
-INSERT INTO ALOJAMIENTO VALUES (3,4,3,3,"2022-08-03",'Casa Azul',5,2,4,1,'Pequeña y acogedora',19.35,112.36,FALSE,"Aldeamayor");
-INSERT INTO ALOJAMIENTO VALUES (4,1,4,4,"2022-11-11",'Casa monasterio',8,4,4,3,'Vintage y clásico',59.35,12.36,FALSE,"Campaspero");
-INSERT INTO ALOJAMIENTO VALUES (5,1,5,5,"2022-09-14",'Casa torreón',12,6,6,3,'Buenas vistas del pueblo',18.35,111.36,FALSE,"Aldeamayor");
-INSERT INTO ALOJAMIENTO VALUES (6,4,6,6,"2022-10-30",'Granja de Paco',17,2,10,2,'Jardín muy amplio',25.35,82.36,FALSE,"Valladolid");
-INSERT INTO ALOJAMIENTO VALUES (7,1,7,7,"2022-10-25",'Casa Pedro',2,1,1,1,'Acogedor',26.35,62.36,TRUE,"Laguna de Duero");
-INSERT INTO ALOJAMIENTO VALUES (8,4,8,8,"2022-08-31",'Casa por el tejado',4,2,2,1,'Centrico',23.35,84.36,FALSE,"Valladolid");
-INSERT INTO ALOJAMIENTO VALUES (9,4,9,9,"2022-12-30",'Casa Parda',7,4,7,3,'A las afueras de la ciudad',35.35,12.36,FALSE,"Viana de Cega");
-INSERT INTO ALOJAMIENTO VALUES (10,4,10,10,"2022-07-28",'Casa acogedora',4,4,4,2,'Rústica',85.75,82.26,FALSE,"Valoria");
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_7.jpg",1);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_6.webp",2);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_8.jpg",3);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/foto_1.jpg",4);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/foto_2.jpg",5);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img1.jpeg",6);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img2.jpeg",7);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img3.jpeg",8);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img4.jpeg",9);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img5.jpeg",10);
+
+
+INSERT INTO ALOJAMIENTO VALUES (1,1,"Imgs_Alojamientos/IMG_7.jpg",1,"2022-07-30",'Casa Pedro',10,4,7,3,'Apartamento acogedor y amplio',10.35,50.36,FALSE,"Peñafiel");
+INSERT INTO ALOJAMIENTO VALUES (2,4,"Imgs_Alojamientos/IMG_6.webp",2,"2022-07-22",'Casa Camino Real',20,6,14,6,'Estancia muy apmlia y con buenas vistas',18.35,20.36,FALSE,"Boecillo");
+INSERT INTO ALOJAMIENTO VALUES (3,4,"Imgs_Alojamientos/IMG_8.jpg",3,"2022-08-03",'Casa Azul',5,2,4,1,'Pequeña y acogedora',19.35,112.36,FALSE,"Aldeamayor de San Martín");
+INSERT INTO ALOJAMIENTO VALUES (4,1,"Imgs_Alojamientos/foto_1.jpg",4,"2022-11-11",'Casa monasterio',8,4,4,3,'Vintage y clásico',59.35,12.36,FALSE,"Campaspero");
+INSERT INTO ALOJAMIENTO VALUES (5,1,"Imgs_Alojamientos/foto_2.jpg",5,"2022-09-14",'Casa torreón',12,6,6,3,'Buenas vistas del pueblo',18.35,111.36,FALSE,"Aldeamayor de San Martín");
+INSERT INTO ALOJAMIENTO VALUES (6,4,"Imgs_Alojamientos/img1.jpeg",6,"2022-10-30",'Granja de Paco',17,2,10,2,'Jardín muy amplio',25.35,82.36,FALSE,"Valladolid");
+INSERT INTO ALOJAMIENTO VALUES (7,1,"Imgs_Alojamientos/img2.jpeg",7,"2022-10-25",'Casa Pedro',2,1,1,1,'Acogedor',26.35,62.36,TRUE,"Laguna de Duero");
+INSERT INTO ALOJAMIENTO VALUES (8,4,"Imgs_Alojamientos/img3.jpeg",8,"2022-08-31",'Casa por el tejado',4,2,2,1,'Centrico',23.35,84.36,FALSE,"Valladolid");
+INSERT INTO ALOJAMIENTO VALUES (9,4,"Imgs_Alojamientos/img4.jpeg",9,"2022-12-30",'Casa Parda',7,4,7,3,'A las afueras de la ciudad',35.35,12.36,FALSE,"Viana de Cega");
+INSERT INTO ALOJAMIENTO VALUES (10,4,"Imgs_Alojamientos/img5.jpeg",10,"2022-07-28",'Casa acogedora',4,4,4,2,'Rústica',85.75,82.26,FALSE,"Valoria la Buena");
 
 INSERT INTO RESERVA VALUES (2,3,"2022-12-4","2022-12-10",2,"Necesitamos una cama doble","realizada",TRUE);
 INSERT INTO RESERVA VALUES (1,4,"2022-12-10","2022-12-20",6,"","pagada",FALSE);
-INSERT INTO RESERVA VALUES (2,5,"2022-11-12","2022-11-24",4,"","cancelada",FALSE);
+INSERT INTO RESERVA VALUES (2,5,"2022-11-12","2022-11-24",4,"","canceladaPorCliente",FALSE);
 INSERT INTO RESERVA VALUES (3,6,"2022-11-13","2022-11-15",6,"","ejecutada",FALSE);
 INSERT INTO RESERVA VALUES (2,3,"2022-12-20","2022-12-25",2,"","cancelacionPorFuerzaMayor",TRUE);
 INSERT INTO RESERVA VALUES (3,7,"2022-10-20","2022-10-25",3,"¿Podemos ir con niños pequeños?","canceladaPorAnfitrion",FALSE);
@@ -256,6 +273,7 @@ INSERT INTO CARACTERISTICA VALUES (9,'en la montaña');
 INSERT INTO CARACTERISTICA VALUES (10,'deluxe');
 
 INSERT INTO ROLUSUARIO VALUES (1,'anfitrion');
+INSERT INTO ROLUSUARIO VALUES (1,'cliente');
 INSERT INTO ROLUSUARIO VALUES (4,'anfitrion');
 INSERT INTO ROLUSUARIO VALUES (2,'cliente');
 INSERT INTO ROLUSUARIO VALUES (3,'cliente');

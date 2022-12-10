@@ -101,14 +101,12 @@
                     <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
                     <%
                         ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
-                        System.out.println("En el JSP: " + alojamientos_disponibles);
                         int tipoerror = (int)request.getAttribute("tipoerror");
-                        System.out.println("El error vale: "+tipoerror);
                         if(tipoerror == 1){
                     %>
                     </table>
                     <br>
-                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidad</label>
+                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidas</label>
                
                         
                             <%        
