@@ -8,8 +8,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@page import="Modelo.Alojamiento"%>
 <%@page import="java.util.ArrayList"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -109,7 +110,7 @@
                     <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidas</label>
                
                         
-                            <%        
+                    <%        
                         }else{
                             for (Alojamiento alojamiento : alojamientos_disponibles) {
                             
@@ -118,7 +119,7 @@
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getValoracion()%></td>
-                        <td><a href="info_alojamiento.html"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
+                        <td><a href="Informacion?idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
                       </tr>
                       <%
                           }

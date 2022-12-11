@@ -29,6 +29,8 @@ public class Alojamiento {
     private Boolean reservaRequiereAceptacionPropietario;
     private String localidad;
     private double valoracion;
+    private ArrayList<String> servicios;
+    private ArrayList<String> caracteristicas;
 
     public Alojamiento(){
         idAlojamiento = 0;
@@ -47,9 +49,11 @@ public class Alojamiento {
         reservaRequiereAceptacionPropietario = false;
         localidad = "";
         valoracion = 0;
+        servicios = new ArrayList<String>();
+        caracteristicas = new ArrayList<String>();
     }
 
-    public Alojamiento(int idAlojamiento, int idAnfitrion, String idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad, double valoracion){
+    public Alojamiento(int idAlojamiento, int idAnfitrion, String idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad, double valoracion, ArrayList<String> servicios, ArrayList<String> caracteristicas){
         
         setFechaEntradaEnSimpleBnB(fechaEntradaEnSimpleBnB);
         setIdAlojamiento(idAlojamiento);
@@ -67,6 +71,24 @@ public class Alojamiento {
         setReservaRequiereAceptacionPropietario(reservaRequiereAceptacionPropietario);
         setUbicacionDescrita(ubicacionDescrita);
         setValoracion(valoracion);
+        setServicios(servicios);
+        setCaracteristicas(caracteristicas);
+    }
+
+    public ArrayList<String> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(ArrayList<String> servicios) {
+        this.servicios = servicios;
+    }
+
+    public ArrayList<String> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(ArrayList<String> caracteristicas) {
+        this.caracteristicas = caracteristicas;
     }
 
     public double getValoracion() {

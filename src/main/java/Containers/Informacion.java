@@ -4,10 +4,14 @@
  */
 package Containers;
 
-import Datos.DAO.UsuarioRegistradoDB;
+import Datos.DAO.AlojamientoDB;
+import Modelo.Alojamiento;
 import Modelo.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +24,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jhon
  */
-@WebServlet(name = "Registro", urlPatterns = {"/Registro"})
-public class Registro extends HttpServlet {
+@WebServlet(name = "Informacion", urlPatterns = {"/Informacion"})
+public class Informacion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +44,10 @@ public class Registro extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
+            out.println("<title>Servlet Informacion</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Registro at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Informacion at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +65,26 @@ public class Registro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        /*Informacion de los alojamientos*/
+        HttpSession session = request.getSession();
+        UsuarioRegistrado user= (UsuarioRegistrado) session.getAttribute("user");
+        
+        int idAlojamiento = Integer.parseInt(request.getParameter("idAlojamiento"));
+        Alojamiento alojamiento = null;
+
+        try {
+            alojamiento = AlojamientoDB.getInfoAlojamiento(idAlojamiento);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Informacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        request.setAttribute("infoAlojamiento",alojamiento);
+        
+        String url = "/info_alojamiento.jsp?idAlojamiento="+idAlojamiento;
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -75,47 +98,7 @@ public class Registro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        UsuarioRegistrado user = new UsuarioRegistrado();
-        request.setCharacterEncoding("UTF-8");
-        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        int id=-1;
-        String url="";
-        boolean error = false;
-        int tipoError = 0;
-        
-        if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
-            url = "/inicio_2.html";
-            user.setContraseña(password);
-            user.setEmail(email);
-            user.setId(id);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            // forward the request and response to the view
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-            dispatcher.forward(request, response);
-            //PrintWriter out=response.getWriter();
-            //out.println();
-        }else if(UsuarioRegistradoDB.emailExists(email) == false){
-            error = true;
-            tipoError = 1;
-        }else{
-            error = true;
-            tipoError = 2;
-        }
-        if(error){
-            if(tipoError==1){
-                PrintWriter out=response.getWriter();
-                out.println("El email introducido no existe en la base de datos");
-             
-            }else if(tipoError == 2){
-                PrintWriter out=response.getWriter();
-                out.println("La contrasena no se corresponde con el correo introducido");
-            }
-        }
+        processRequest(request, response);
     }
 
     /**

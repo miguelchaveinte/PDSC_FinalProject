@@ -240,6 +240,14 @@ INSERT INTO VALORACION VALUES (1,1,3,3,3,4,3,'Recomendable para un fin de semana
 INSERT INTO VALORACION VALUES (2,10,4,4,5,4,4,'Muy contentos con la experiencia');
 INSERT INTO VALORACION VALUES (3,4,2,1,2,3,1,'Falta bastante limpieza');
 INSERT INTO VALORACION VALUES (4,5,3,3,5,4,2,"");
+INSERT INTO VALORACION VALUES (5,1,4,2,3,4,3,'Recomendable para unas vacaciones con la familia.');
+INSERT INTO VALORACION VALUES (6,2,4,5,5,2,4,'Muy contentos con la experiencia, todo perfecto');
+INSERT INTO VALORACION VALUES (7,3,2,5,5,5,1,'Todo bastante limpio y buena confianza');
+INSERT INTO VALORACION VALUES (8,6,3,2,5,2,1,"");
+INSERT INTO VALORACION VALUES (9,7,3,2,2,4,3,'Recomendable para un fin de semana.');
+INSERT INTO VALORACION VALUES (10,8,4,4,5,5,4,'Muy contentos con la experiencia');
+INSERT INTO VALORACION VALUES (11,9,2,1,2,3,2,'Falta bastante limpieza');
+INSERT INTO VALORACION VALUES (12,10,3,3,3,1,1,'Pesimo no volveria');
 
 INSERT INTO SERVICIO VALUES (1,'con cocina');
 INSERT INTO SERVICIO VALUES (1,'wifi');

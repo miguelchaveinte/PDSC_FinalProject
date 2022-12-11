@@ -101,7 +101,6 @@ public class Disponibles extends HttpServlet {
                 tipoError = 1;
             }
             
-            System.out.println("ERROR: "+tipoError);
             if(error){
                 if(tipoError==1){
                     request.setAttribute("tipoerror", tipoError);
