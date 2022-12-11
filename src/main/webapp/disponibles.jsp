@@ -118,7 +118,7 @@
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getValoracion()%></td>
-                        <td><img src = <%= alojamiento.getIdFotoPortada()%>></td>
+                        <td><a href="info_alojamiento.html"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
                       </tr>
                       <%
                           }

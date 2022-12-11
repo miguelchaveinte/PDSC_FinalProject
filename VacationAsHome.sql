@@ -194,28 +194,28 @@ INSERT INTO PRECIO VALUES (8,67.0,190.0,420.0,2670.0,"2022-9-25","2022-12-31",1)
 INSERT INTO PRECIO VALUES (9,102.0,340.0,780.0,3900.0,"2022-7-10","2022-12-31",1);
 INSERT INTO PRECIO VALUES (10,62.0,140.0,420.0,2910.0,"2022-11-10","2022-12-30",2);
 
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_7.jpg",1);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_6.webp",2);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/IMG_8.jpg",3);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/foto_1.jpg",4);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/foto_2.jpg",5);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img1.jpeg",6);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img2.jpeg",7);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img3.jpeg",8);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img4.jpeg",9);
-INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/img5.jpeg",10);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casapedro.jpeg",1);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casacaminoreal.jpg",2);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casaazul.jpeg",3);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casamonasterio.jpeg",4);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casatorreon.jpeg",5);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/granjapaco.jpg",6);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casamartin.jpg",7);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casaporeltejado.jpg",8);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casaparda.jpg",9);
+INSERT INTO FOTO VALUES ("etiqueta", "Imgs_Alojamientos/casaacogedora.jpg",10);
 
 
-INSERT INTO ALOJAMIENTO VALUES (1,1,"Imgs_Alojamientos/IMG_7.jpg",1,"2022-07-30",'Casa Pedro',10,4,7,3,'Apartamento acogedor y amplio',10.35,50.36,FALSE,"Peñafiel");
-INSERT INTO ALOJAMIENTO VALUES (2,4,"Imgs_Alojamientos/IMG_6.webp",2,"2022-07-22",'Casa Camino Real',20,6,14,6,'Estancia muy apmlia y con buenas vistas',18.35,20.36,FALSE,"Boecillo");
-INSERT INTO ALOJAMIENTO VALUES (3,4,"Imgs_Alojamientos/IMG_8.jpg",3,"2022-08-03",'Casa Azul',5,2,4,1,'Pequeña y acogedora',19.35,112.36,FALSE,"Aldeamayor de San Martín");
-INSERT INTO ALOJAMIENTO VALUES (4,1,"Imgs_Alojamientos/foto_1.jpg",4,"2022-11-11",'Casa monasterio',8,4,4,3,'Vintage y clásico',59.35,12.36,FALSE,"Campaspero");
-INSERT INTO ALOJAMIENTO VALUES (5,1,"Imgs_Alojamientos/foto_2.jpg",5,"2022-09-14",'Casa torreón',12,6,6,3,'Buenas vistas del pueblo',18.35,111.36,FALSE,"Aldeamayor de San Martín");
-INSERT INTO ALOJAMIENTO VALUES (6,4,"Imgs_Alojamientos/img1.jpeg",6,"2022-10-30",'Granja de Paco',17,2,10,2,'Jardín muy amplio',25.35,82.36,FALSE,"Valladolid");
-INSERT INTO ALOJAMIENTO VALUES (7,1,"Imgs_Alojamientos/img2.jpeg",7,"2022-10-25",'Casa Pedro',2,1,1,1,'Acogedor',26.35,62.36,TRUE,"Laguna de Duero");
-INSERT INTO ALOJAMIENTO VALUES (8,4,"Imgs_Alojamientos/img3.jpeg",8,"2022-08-31",'Casa por el tejado',4,2,2,1,'Centrico',23.35,84.36,FALSE,"Valladolid");
-INSERT INTO ALOJAMIENTO VALUES (9,4,"Imgs_Alojamientos/img4.jpeg",9,"2022-12-30",'Casa Parda',7,4,7,3,'A las afueras de la ciudad',35.35,12.36,FALSE,"Viana de Cega");
-INSERT INTO ALOJAMIENTO VALUES (10,4,"Imgs_Alojamientos/img5.jpeg",10,"2022-07-28",'Casa acogedora',4,4,4,2,'Rústica',85.75,82.26,FALSE,"Valoria la Buena");
+INSERT INTO ALOJAMIENTO VALUES (1,1,"Imgs_Alojamientos/casapedro.jpeg",1,"2022-07-30",'Casa Pedro',10,4,7,3,'Apartamento acogedor y amplio',10.35,50.36,FALSE,"Peñafiel");
+INSERT INTO ALOJAMIENTO VALUES (2,4,"Imgs_Alojamientos/casacaminoreal.jpg",2,"2022-07-22",'Casa Camino Real',20,6,14,6,'Estancia muy apmlia y con buenas vistas',18.35,20.36,FALSE,"Boecillo");
+INSERT INTO ALOJAMIENTO VALUES (3,4,"Imgs_Alojamientos/casaazul.jpeg",3,"2022-08-03",'Casa Azul',5,2,4,1,'Pequeña y acogedora',19.35,112.36,FALSE,"Aldeamayor de San Martín");
+INSERT INTO ALOJAMIENTO VALUES (4,1,"Imgs_Alojamientos/casamonasterio.jpeg",4,"2022-11-11",'Casa monasterio',8,4,4,3,'Vintage y clásico',59.35,12.36,FALSE,"Campaspero");
+INSERT INTO ALOJAMIENTO VALUES (5,1,"Imgs_Alojamientos/casatorreon.jpeg",5,"2022-09-14",'Casa torreón',12,6,6,3,'Buenas vistas del pueblo',18.35,111.36,FALSE,"Aldeamayor de San Martín");
+INSERT INTO ALOJAMIENTO VALUES (6,4,"Imgs_Alojamientos/granjapaco.jpg",6,"2022-10-30",'Granja de Paco',17,2,10,2,'Jardín muy amplio',25.35,82.36,FALSE,"Valladolid");
+INSERT INTO ALOJAMIENTO VALUES (7,1,"Imgs_Alojamientos/casamartin.jpg",7,"2022-10-25",'Casa Martin',2,1,1,1,'Acogedor',26.35,62.36,TRUE,"Laguna de Duero");
+INSERT INTO ALOJAMIENTO VALUES (8,4,"Imgs_Alojamientos/casaporeltejado.jpg",8,"2022-08-31",'Casa por el tejado',4,2,2,1,'Centrico',23.35,84.36,FALSE,"Valladolid");
+INSERT INTO ALOJAMIENTO VALUES (9,4,"Imgs_Alojamientos/casaparda.jpg",9,"2022-12-30",'Casa Parda',7,4,7,3,'A las afueras de la ciudad',35.35,12.36,FALSE,"Viana de Cega");
+INSERT INTO ALOJAMIENTO VALUES (10,4,"Imgs_Alojamientos/casaacogedora.jpg",10,"2022-07-28",'Casa acogedora',4,4,4,2,'Rústica',85.75,82.26,FALSE,"Valoria la Buena");
 
 INSERT INTO RESERVA VALUES (2,3,"2022-12-4","2022-12-10",2,"Necesitamos una cama doble","realizada",TRUE);
 INSERT INTO RESERVA VALUES (1,4,"2022-12-10","2022-12-20",6,"","pagada",FALSE);

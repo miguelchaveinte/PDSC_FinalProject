@@ -41,7 +41,7 @@
                                 <label for="psw"><b>Contraseña</b></label>
                                 <input type="password" placeholder="Introduce tu contraseña" name="password" id="password" required><br><br>
                                 
-                                <h4 id="erro1" style="display: none">Revisa tus creedenciales</h4>
+                                <h4 id="erro1" style="display: none">El email introducido no existe en la base de datos</h4>
                                 
                                 <!-- Submit Button -->
                                 <button id="submit1" type="submit">Login</button>
@@ -111,14 +111,19 @@
             }
         });
              
-        if(resultado.responseText=="Revisa tus creedenciales\r\n") {
+        if(resultado.responseText=="El email introducido no existe en la base de datos\r\n") {
             document.getElementById('erro1').style.display="block"; 
+            document.getElementById('erro1').innerHTML="El email introducido no existe en la base de datos";
+            return false;
+        }else if(resultado.responseText=="La contrasena no se corresponde con el correo introducido\r\n"){
+            document.getElementById('erro1').style.display="block"; 
+            document.getElementById('erro1').innerHTML="La contraseña no se corresponde con el correo introducido";
             return false;
         }else {
             window.location.href= 'http://localhost:8080/PDSC/inicio_2.html';
             return false;
         }
-}
+    }
 });
 
 

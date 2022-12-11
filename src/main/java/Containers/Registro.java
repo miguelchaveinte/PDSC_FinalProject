@@ -81,12 +81,12 @@ public class Registro extends HttpServlet {
         /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
+        System.out.println(password);
         int id=-1;
         String url="";
         boolean error = false;
         int tipoError = 0;
-
+        
         if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
             url = "/inicio_2.html";
             user.setContraseña(password);
@@ -100,9 +100,23 @@ public class Registro extends HttpServlet {
             dispatcher.forward(request, response);
             //PrintWriter out=response.getWriter();
             //out.println();
+        }else if(UsuarioRegistradoDB.emailExists(email) == false){
+            error = true;
+            tipoError = 1;
         }else{
-            PrintWriter out=response.getWriter();
-            out.println("Revisa tus creedenciales");
+            error = true;
+            tipoError = 2;
+        }
+        System.out.println(tipoError);
+        if(error){
+            if(tipoError==1){
+                PrintWriter out=response.getWriter();
+                out.println("El email introducido no existe en la base de datos");
+             
+            }else if(tipoError == 2){
+                PrintWriter out=response.getWriter();
+                out.println("La contrasena no se corresponde con el correo introducido");
+            }
         }
     }
 
