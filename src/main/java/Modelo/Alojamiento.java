@@ -16,7 +16,7 @@ public class Alojamiento {
     private int idAlojamiento;
     private int idAnfitrion;
     private String idFotoPortada;
-    private int idPrecioActual;
+    private Precio idPrecioActual;
     private Date fechaEntradaEnSimpleBnB;
     private String nombre;
     private int maximoHuespedes;
@@ -36,7 +36,7 @@ public class Alojamiento {
         idAlojamiento = 0;
         idAnfitrion = 0;
         idFotoPortada = "";
-        idPrecioActual = 0;
+        idPrecioActual = new Precio();
         fechaEntradaEnSimpleBnB = null;
         nombre = "";
         maximoHuespedes = 0;
@@ -53,7 +53,7 @@ public class Alojamiento {
         caracteristicas = new ArrayList<String>();
     }
 
-    public Alojamiento(int idAlojamiento, int idAnfitrion, String idFotoPortada, int idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad, double valoracion, ArrayList<String> servicios, ArrayList<String> caracteristicas){
+    public Alojamiento(int idAlojamiento, int idAnfitrion, String idFotoPortada, Precio idPrecioActual, Date fechaEntradaEnSimpleBnB, String nombre, int maximoHuespedes, int numeroDormitorios, int numeroCamas, int numeroBanos, String ubicacionDescrita, float longitud, float latitud, Boolean reservaRequiereAceptacionPropietario, String localidad, double valoracion, ArrayList<String> servicios, ArrayList<String> caracteristicas){
         
         setFechaEntradaEnSimpleBnB(fechaEntradaEnSimpleBnB);
         setIdAlojamiento(idAlojamiento);
@@ -124,11 +124,11 @@ public class Alojamiento {
         this.idFotoPortada = idFotoPortada;
     }
 
-    public int getIdPrecioActual() {
+    public Precio getIdPrecioActual() {
         return idPrecioActual;
     }
 
-    public void setIdPrecioActual(int idPrecioActual) {
+    public void setIdPrecioActual(Precio idPrecioActual) {
         this.idPrecioActual = idPrecioActual;
     }
 
