@@ -1,6 +1,7 @@
 package Datos.DAO;
 
 import Datos.ConnectionPool;
+import Modelo.UsuarioRegistrado;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,6 +68,33 @@ public class UsuarioRegistradoDB {
             } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+            }
+    }
+
+    public static UsuarioRegistrado seleccionaUsuario(int idUsuario)throws SQLException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        UsuarioRegistrado usuario = null;
+
+        String query = "SELECT * FROM USUARIOREGISTRADO "
+        + "WHERE id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, idUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                usuario = new UsuarioRegistrado(rs.getInt("id"), rs.getString("rol"), rs.getString("email"), rs.getDate("fechaDeSuscripcion") ,rs.getString("contrasena"));
+            }
+            rs.close();
+            ps.close();
+            pool.freeConnection(connection);
+            return usuario;
+            } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
             }
     }
     

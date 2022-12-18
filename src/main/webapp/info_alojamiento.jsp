@@ -4,11 +4,14 @@
     Author     : Jhon
 --%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@page import="Modelo.UsuarioRegistrado"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="Modelo.Alojamiento"%>
 <%@page import="java.util.ArrayList"%>
 
 <%
+    UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
     Alojamiento alojamiento = (Alojamiento) request.getAttribute("infoAlojamiento");
     ArrayList<String> servicios = alojamiento.getServicios();
     ArrayList<String> caracteristicas = alojamiento.getCaracteristicas();
@@ -30,15 +33,21 @@
 <body>
     <div id="headerP">
         <div class="container">
-            <nav>
-                <ul id="sidemenu">
-                    <!--<img src="icon_vacation.png" alt="VacationAsHome" width="210" height="120">-->
-                    <li><a href="disponibles.html">Alojamientos Disponibles</a></li>
-                    <li><a href="reserva.html">Reservar Alojamiento</a></li>
-                    <li><a href="registrar.html">Registrar Nuevos Precios</a></li>
-                    <button class="button button1" style="width: auto;">Bienvenido</button>                    
-                </ul>
-            </nav>
+            
+            <!-- Comprobamos la cabecera correspondiente -->
+            <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
+            <%
+                System.out.println("-----");
+                System.out.println(usuario.getRol());
+                System.out.println("-----");
+            %>
+            <c:if test="${rol=='anfitrion'}">
+                <%@include file="./Anfitrion_Header.jsp" %>
+            </c:if>
+            
+            <c:if test="${rol=='cliente'}">
+                <%@include file="./Cliente_Header.jsp" %>
+            </c:if>
 
             <!--------Imagen del alojamiento-------->
             <div style="width: 40%; float: left;">
@@ -52,18 +61,18 @@
                 <div class="header-text">
                     <label for="huespedes" style="font-size: 24px;">Nombre:</label> <span style="font-size: 20px;"><%=alojamiento.getNombre()%></span>
                     <br>
-                    <label for="huespedes" style="font-size: 24px;">MÃ¡ximo huÃ©spedes:</label> <span style="font-size: 20px;"><%=alojamiento.getMaximoHuespedes()%></span>
+                    <label for="huespedes" style="font-size: 24px;">Máximo huéspedes:</label> <span style="font-size: 20px;"><%=alojamiento.getMaximoHuespedes()%></span>
                     <br>
-                    <label for="huespedes" style="font-size: 24px;">NÃºmero de dormitorios:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroDormitorios()%></span>
+                    <label for="huespedes" style="font-size: 24px;">Número de dormitorios:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroDormitorios()%></span>
                     <br>
-                    <label for="huespedes" style="font-size: 24px;">NÃºmero de camas:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroCamas()%></span>
+                    <label for="huespedes" style="font-size: 24px;">Número de camas:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroCamas()%></span>
                     <br>
-                    <label for="huespedes" style="font-size: 24px;">NÃºmero de baÃ±os:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroBanos()%></span>
+                    <label for="huespedes" style="font-size: 24px;">Número de baños:</label> <span style="font-size: 20px;"><%=alojamiento.getNumeroBanos()%></span>
                     <br>
                     <label for="huespedes" style="font-size: 24px;">Servicios:</label> <span style="font-size: 20px;">
                         <%
                             for (String servicio : servicios) {
-                                out.println( "<br>" + servicio);
+                                out.println( "<br>" + "- " + servicio);
                             }
                         %>
                         
@@ -78,11 +87,11 @@
         <!--Descripcion del alojamientos + Fecha de Reserva-->
         <div class="container">
             <div style="width: 40%; float: left;">
-                <label for="date_ini" style="font-size: 24px;">CaracterÃ­sticas del alojamiento:</label><br>
+                <label for="date_ini" style="font-size: 24px;">Características del alojamiento:</label><br>
                 <p>
                     <%
                         for (String caracteristica : caracteristicas) {
-                            out.println(caracteristica + "<br>");
+                            out.println("- "+caracteristica + "<br>");
                         }
                     %>
                 </p>

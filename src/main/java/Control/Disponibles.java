@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Containers;
+package Control;
 
 import Datos.DAO.AlojamientoDB;
 import Modelo.Alojamiento;
@@ -94,7 +94,6 @@ public class Disponibles extends HttpServlet {
             /*fechaEntrada = date.parse(entrada);
             fechaSalida = date.parse(salida);*/
             alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, entrada, salida);
-
             /* Si no existe alojamientos es null entonces error */
             if(alojamientos_disponibles.isEmpty()){
                 error = true;

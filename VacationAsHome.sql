@@ -15,7 +15,6 @@ SERVICIO,
 ALOJAMIENTO,
 ANFITRION,
 USUARIOREGISTRADO,
-ROLUSUARIO,
 IDIOMAANFITRION,
 CLIENTE;
 
@@ -29,6 +28,7 @@ CLIENTE;
 /*Cualquier usuario registrado es un cliente o un anfitrión*/
 CREATE TABLE USUARIOREGISTRADO(
     id                     INTEGER AUTO_INCREMENT,
+    rol                    ENUM('cliente','anfitrion') NOT NULL,
     email                  VARCHAR (50) NOT NULL,
     fechaDeSuscripcion     DATE,
     contrasena             VARCHAR(50) NOT NULL,
@@ -160,21 +160,16 @@ CREATE TABLE CARACTERISTICA(
 
 
 
-CREATE TABLE ROLUSUARIO(
-    idUsuario               INTEGER NOT NULL,
-    rol                     ENUM('cliente','anfitrion') NOT NULL,
-    PRIMARY KEY (idUsuario,rol),
-    Foreign Key (idUsuario) REFERENCES USUARIOREGISTRADO(id)
-
-);
-
-        /* INSERTS */
+/* INSERTS */
 /* POBLACIÓN BASE DE DATOS */
 
-INSERT INTO USUARIOREGISTRADO VALUES (1,"manolo@gmail.com","2022-11-04","1234");
-INSERT INTO USUARIOREGISTRADO VALUES (2,"carlos@gmail.com","2022-11-15","abc");
-INSERT INTO USUARIOREGISTRADO VALUES (3,"prueba@gmail.com","2022-11-17","1234");
-INSERT INTO USUARIOREGISTRADO VALUES (4,"toribio@gmail.com","2022-12-02","toribio");
+
+/*Modificado con el insert de los roles*/
+INSERT INTO USUARIOREGISTRADO VALUES (1,'anfitrion',"manolo@gmail.com","2022-11-04","1234");
+/*INSERT INTO USUARIOREGISTRADO VALUES (1,'cliente',"manolo@gmail.com","2022-11-04","1234");*/
+INSERT INTO USUARIOREGISTRADO VALUES (2,'cliente',"carlos@gmail.com","2022-11-15","abc");
+INSERT INTO USUARIOREGISTRADO VALUES (3,'cliente',"prueba@gmail.com","2022-11-17","1234");
+INSERT INTO USUARIOREGISTRADO VALUES (4,'anfitrion',"toribio@gmail.com","2022-12-02","toribio");
 
 INSERT INTO CLIENTE VALUES (2);
 INSERT INTO CLIENTE VALUES (3);
@@ -279,9 +274,3 @@ INSERT INTO CARACTERISTICA VALUES (7,'con piscina');
 INSERT INTO CARACTERISTICA VALUES (8,'a pie de pista');
 INSERT INTO CARACTERISTICA VALUES (9,'en la montaña');
 INSERT INTO CARACTERISTICA VALUES (10,'deluxe');
-
-INSERT INTO ROLUSUARIO VALUES (1,'anfitrion');
-INSERT INTO ROLUSUARIO VALUES (1,'cliente');
-INSERT INTO ROLUSUARIO VALUES (4,'anfitrion');
-INSERT INTO ROLUSUARIO VALUES (2,'cliente');
-INSERT INTO ROLUSUARIO VALUES (3,'cliente');

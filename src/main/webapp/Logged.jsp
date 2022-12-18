@@ -1,3 +1,17 @@
+<%-- 
+    Document   : Logged
+    Created on : 17-dic-2022, 17:17:14
+    Author     : Jhon
+--%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="Modelo.UsuarioRegistrado"%>
+
+<%
+    UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,12 +29,20 @@
         <div class="container">
             
             <!-- Comprobamos la cabecera correspondiente -->
-
+            <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
+            <c:if test="${rol=='anfitrion'}">
+                <%@include file="./Anfitrion_Header.jsp" %>
+            </c:if>
+            
+            <c:if test="${rol=='cliente'}">
+                <%@include file="./Cliente_Header.jsp" %>
+            </c:if>
+            
             <div style="width: 40%; float: left;">
                 <div class="header-text">
                     <h1>VacationAsHome</h1>
                     <br>
-                    <p>Un mundo ideal.<br>Aunque sÃ³lo sea por una noche.
+                    <p>Un mundo ideal.<br>Aunque sólo sea por una noche.
                     <br><br>The dream of your dreams</p>
                 </div>
             </div>
@@ -28,14 +50,10 @@
             <div style="width: 50%; float: right;">
                 <img src="img_principal.jpg" alt="VacationAsHome" width="550" height="450">
             </div>
-            
-
-         
+                     
 
         </div>
     </div>
 
-
-    
 </body>
 </html>

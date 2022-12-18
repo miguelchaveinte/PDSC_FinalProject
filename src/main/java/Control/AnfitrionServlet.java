@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Containers;
+package Control;
 
 import Datos.DAO.AlojamientoDB;
 import Modelo.Alojamiento;
@@ -10,6 +10,8 @@ import Modelo.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -22,10 +24,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Jhon
+ * @author hecto
  */
-@WebServlet(name = "Informacion", urlPatterns = {"/Informacion"})
-public class Informacion extends HttpServlet {
+@WebServlet(name = "AnfitrionServlet", urlPatterns = {"/AnfitrionServlet"})
+public class AnfitrionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,15 +41,15 @@ public class Informacion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Informacion</title>");            
+            out.println("<title>Servlet AnfitrionServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Informacion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AnfitrionServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,26 +67,41 @@ public class Informacion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        /*Informacion de los alojamientos*/
         HttpSession session = request.getSession();
-        UsuarioRegistrado user= (UsuarioRegistrado) session.getAttribute("user");
-        
-        int idAlojamiento = Integer.parseInt(request.getParameter("idAlojamiento"));
-        Alojamiento alojamiento = null;
-
+        UsuarioRegistrado usuario = (UsuarioRegistrado)session.getAttribute("user");
+        int idAnf = usuario.getId();
+        boolean error = false;
+        int tipoError = 0;
+        ArrayList<Alojamiento> alojamientos_anfitrion = new ArrayList<Alojamiento>();
         try {
-            alojamiento = AlojamientoDB.getInfoAlojamiento(idAlojamiento);
-            
+            /*fechaEntrada = date.parse(entrada);
+            fechaSalida = date.parse(salida);*/
+            alojamientos_anfitrion = AlojamientoDB.getAlojamientosAnf(idAnf);
+            System.out.println("En el servlet: " + alojamientos_anfitrion);
+            /* Si no existe alojamientos es null entonces error */
+            if(alojamientos_anfitrion.isEmpty()){
+                error = true;
+                tipoError = 1;
+            }
+            //AQUI NO HABRA ERROR YA QUE IMPLEMENTAREMOS UNA CABECERA EN FUNCION DE SI EL USUARIOREGISTRADO EN ANFITRION O NO!!
+            if(error){
+                if(tipoError==1){
+                    request.setAttribute("tipoerror", tipoError);
+                    String url = "/registrar.jsp";
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
+                }
+                
+            }else{
+                request.setAttribute("tipoerror", tipoError);
+                request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
+                String url = "/registrar.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(Informacion.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        request.setAttribute("infoAlojamiento",alojamiento);
-        
-        String url = "/info_alojamiento.jsp?idAlojamiento="+idAlojamiento;
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
 
     /**

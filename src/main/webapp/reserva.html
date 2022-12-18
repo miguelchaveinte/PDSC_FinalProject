@@ -31,7 +31,7 @@
                     <br>
 
                     <!--Make sure the form has the autocomplete function switched off:-->
-                    <form autocomplete="off" name="myForm" action="/action_page.php" onsubmit="return checkLocalidad()">
+                    <form autocomplete="off" name="myForm" action="ReservasServlet" onsubmit="return checkLocalidad()">
                         <!--Buscar Localidad-->                    
                         <div class="autocomplete" style="width:300px;">
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
@@ -49,58 +49,7 @@
                     </form>
                     
                 </div>
-            </div>
-
-            <!--------Tabla de Alojamientos Disponibles-------->
-            <div style="width: 55%; float: right;">
-                <div class="header-text">                
-                <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
-                <table>
-                    <!--Cabeceras Tabla-->
-                    <tr>
-                      <th>Descripción</th>
-                      <th>Precio Noche</th>
-                      <th>Capacidad</th>
-                      <th>Valoración</th>
-                      <th>TOTAL</th>
-                    </tr>
-
-                    <!--Rows de la tabla-->
-                    <tr>
-                        <td><a href="info_alojamiento.html"><img src="./Imgs_Alojamientos/img1.jpeg" alt="VacationAsHome"></a></td>
-                      <td>150€</td>
-                      <td>3</td>
-                      <td>4.5</td>
-                      <td>600€</td>
-                    </tr>
-
-                    <tr>
-                        <td><a href="info_alojamiento.html"><img src="./Imgs_Alojamientos/img5.jpeg" alt="VacationAsHome"></a></td>
-                        <td>30€</td>
-                        <td>3</td>
-                        <td>5.0</td>
-                        <td>100€</td>
-                      </tr>
-
-                    <tr>
-                        <td><img src="./Imgs_Alojamientos/img3.jpeg" alt="VacationAsHome"></td>
-                        <td>100€</td>
-                        <td>3</td>
-                        <td>3.0</td>
-                        <td>300€</td>
-                    </tr>
-
-                    <tr>
-                        <td><img src="./Imgs_Alojamientos/img4.jpeg" alt="VacationAsHome"></td>
-                        <td>10€</td>
-                        <td>3</td>
-                        <td>3.5</td>
-                        <td>40€</td>
-                    </tr>
-
-                </table>
-                </div>
-            </div>        
+            </div>       
 
         </div>
     </div>

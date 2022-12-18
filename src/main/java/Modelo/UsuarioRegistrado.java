@@ -13,23 +13,34 @@ import java.util.Date;
 public class UsuarioRegistrado {
 
     private Integer id;
+    private String rol;
     private String email;
     private Date fechaSus;
     private String contrasena;
 
     public UsuarioRegistrado(){
         id = 0;
+        rol = "";
         email = "";
         fechaSus = null;
         contrasena = "";
     }
 
-    public UsuarioRegistrado(int id, String email, Date fechaSus, String contrasena){
+  
+    public UsuarioRegistrado(int id, String rol, String email, Date fechaSus, String contrasena){
         setContraseña(contrasena);
+        setRol(rol);
         setEmail(email);
         setFechaSus(fechaSus);
         setId(id);
-        
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public String getContrasena() {

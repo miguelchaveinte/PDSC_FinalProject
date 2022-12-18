@@ -2,26 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Containers;
+package Control;
 
-import Datos.DAO.UsuarioRegistradoDB;
-import Modelo.UsuarioRegistrado;
+import Datos.DAO.AlojamientoDB;
+import Modelo.Alojamiento;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Jhon
  */
-@WebServlet(name = "Registro", urlPatterns = {"/Registro"})
-public class Registro extends HttpServlet {
+@WebServlet(name = "ReservasServlet", urlPatterns = {"/ReservasServlet"})
+public class ReservasServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +44,10 @@ public class Registro extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
+            out.println("<title>Servlet ReservasServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Registro at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReservasServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +65,46 @@ public class Registro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        /* Creacion booleano que detecta errores */
+        boolean error = false;
+        int tipoError = 0;
+       
+        String localidad = request.getParameter("myLocalidad");
+        int huespedes = Integer.parseInt(request.getParameter("huespedes"));
+
+        request.setAttribute("local", localidad);
+        
+        ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
+
+        try {
+            alojamientos_disponibles = AlojamientoDB.getListaReservas(localidad, huespedes);
+            /* Si no existe alojamientos es null entonces error */
+            if(alojamientos_disponibles.isEmpty()){
+                error = true;
+                tipoError = 1;
+            }
+            
+            if(error){
+                if(tipoError==1){
+                    request.setAttribute("tipoerror", tipoError);
+                    String url = "/reservas.jsp";
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
+                }
+                
+            }else{
+                request.setAttribute("tipoerror", tipoError);
+                request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
+                String url = "/reservas.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            }
+        } catch (SQLException ex) {
+                Logger.getLogger(ReservasServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(ReservasServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -75,47 +118,7 @@ public class Registro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        UsuarioRegistrado user = new UsuarioRegistrado();
-        request.setCharacterEncoding("UTF-8");
-        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        int id=-1;
-        String url="";
-        boolean error = false;
-        int tipoError = 0;
-        
-        if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
-            url = "/inicio_2.html";
-            user.setContraseña(password);
-            user.setEmail(email);
-            user.setId(id);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            // forward the request and response to the view
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-            dispatcher.forward(request, response);
-            //PrintWriter out=response.getWriter();
-            //out.println();
-        }else if(UsuarioRegistradoDB.emailExists(email) == false){
-            error = true;
-            tipoError = 1;
-        }else{
-            error = true;
-            tipoError = 2;
-        }
-        if(error){
-            if(tipoError==1){
-                PrintWriter out=response.getWriter();
-                out.println("El email introducido no existe en la base de datos");
-             
-            }else if(tipoError == 2){
-                PrintWriter out=response.getWriter();
-                out.println("La contrasena no se corresponde con el correo introducido");
-            }
-        }
+        processRequest(request, response);
     }
 
     /**

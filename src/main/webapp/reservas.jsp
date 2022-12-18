@@ -1,20 +1,21 @@
-
-<%@page import="Modelo.UsuarioRegistrado"%>
 <%-- 
-    Document   : disponibles
-    Created on : 08-dic-2022, 1:54:33
+    Document   : reservas
+    Created on : 17-dic-2022, 19:43:54
     Author     : Jhon
 --%>
+
+<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Modelo.Alojamiento"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="Modelo.Alojamiento"%>
-<%@page import="java.util.ArrayList"%>
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +31,7 @@
 <body>
     <div id="header">
         <div class="container">
+            
             <!-- Comprobamos la cabecera correspondiente -->
             <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
             <%
@@ -50,32 +52,21 @@
                 <div class="header-text">
                     <h1>VacationAsHome</h1>
                     <br>
-                    
+
                     <!--Make sure the form has the autocomplete function switched off:-->
-                    <form autocomplete="off" name="myForm" action="Disponibles" method="GET" onsubmit="return checkLocalidad()">
-                        <!--------Filtro Fechas-------->
-                        <div style="width: 40%; float: left;">
-                            <!--Fecha Inicio-->
-                            <label for="date_ini" style="font-size: 24px;">Fecha de Entrada</label><br>
-                            <input type="date" id="date_ini" name="date_ini" onchange="changeDate()" required><br><br>
-                        </div>
-
-                        <div style="width: 40%; float: right;">
-                            <!--Fecha Fin-->
-                            <label for="date_fin" style="font-size: 24px;">Fecha de Salida</label><br>
-                            <input type="date" id="date_fin" name="date_fin" required>
-                            <br><br>
-                        </div>
-
+                    <form autocomplete="off" name="myForm" action="ReservasServlet" onsubmit="return checkLocalidad()">
                         <!--Buscar Localidad-->                    
                         <div class="autocomplete" style="width:300px;">
-                            <%
-                                String localizacion = (String)request.getAttribute("local");
-                                System.out.println(localizacion);
-                                %>
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
-                            <input id="myInput" type="text" name="myLocalidad" placeholder=Escribe... required>
+                            <input id="myInput" type="text" name="myLocalidad" placeholder="Localidad" required>
                         </div>
+                        <br><br>
+                        <!--Numero de Huespedes-->
+                        <div>
+                            <label for="huespedes" style="font-size: 24px;">Huespedes:</label>
+                            <input type="number" id="huespedes" name="huespedes" min="1" max="20" step="1" value="3">
+                        </div>
+                        
                         <br>
                         <input type="submit" class="button button1" value="Buscar">
                     </form>
@@ -85,25 +76,15 @@
 
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
-                <div class="header-text">
-                <!--Select para filtros-->
-                <label for="my-select" style="font-size: 24px;">Filtrar por:</label>
-                <select id="my-select" onchange="sortTable()">
-                    <option>Seleccione</option>
-                    <option value="option-1" onclick="">De menor a mayor capacidad</option>
-                      <option value="option-2">De mayor a menor capacidad</option>
-                      <option value="option-3">De menor a mayor valoración</option>
-                      <option value="option-4">De mayor a menor valoración</option>
-                </select><br><br>
-                <label id= "localidad" for="my-select" style="font-size: 24px;">Localidad: <%= localizacion %></label>
-         
+                <div class="header-text">    
+                    
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
                     <!--Cabeceras Tabla-->
                     <tr>
                         <th>Nombre</th>
                       <th>Capacidad</th>
-                      <th>Valoración</th>
+                      <th>ValoraciÃ³n</th>
                       <th>Imagen</th>
                     </tr>
 
@@ -137,12 +118,13 @@
                        <%
                         }
                       %>
-            
+                      
                 </div>
             </div>        
 
         </div>
     </div>
+
 
     <!-----------------Autocompletado del buscador de Localidades----------------->
     <script>
@@ -243,11 +225,11 @@
           });
         }
         
-        /*Array que contiene las localidades de España*/
+        /*Array que contiene las localidades de EspaÃ±a*/
         var local_spain = localidades;
         
-        /*initiate the autocomplete function on the "myInput" element, and pass along the locations array as possible autocomplete values:*/
-        autocomplete(document.getElementById("myInput"), local_spain);        
+        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+        autocomplete(document.getElementById("myInput"), local_spain);
         </script>
         
         <!-- Comprobamos que la localidad sea correcta -->
@@ -256,118 +238,12 @@
                 //Obtenemos el valor de la localidad seleccionada
                 let x = document.forms["myForm"]["myLocalidad"].value;
                 if (!(localidades.includes(x))) {
-                  alert("Introduzca una localidad válida");
+                  alert("Introduzca una localidad vÃ¡lida");
                   return false;
                 }
             }
         </script>
 
-        <!-----------------Filtro de Tablas----------------->
-        <script>
-        function sortTable() {
-
-          var select = document.getElementById('my-select');
-          var selectedOption = select.options[select.selectedIndex].value;
-          /*console.log(selectedOption);*/
-
-          var table, rows, switching, i, x, y, shouldSwitch;
-          table = document.getElementById("myTable");
-          switching = true;
-          /*Make a loop that will continue until
-          no switching has been done:*/
-          while (switching) {
-              //start by saying: no switching is done:
-              switching = false;
-              rows = table.rows;
-              /*Loop through all table rows (except the
-              first, which contains table headers):*/
-              for (i = 1; i < (rows.length - 1); i++) {
-                  //start by saying there should be no switching:
-                  shouldSwitch = false;
-                  /*Get the two elements you want to compare,
-                  one from current row and one from the next:*/
-
-                  /*Comprobamos tipo de filtro*/
-                  if (selectedOption == "option-1" || selectedOption == "option-2"){
-                      /*Filtro por capacidad del alojamiento*/
-                      x = rows[i].getElementsByTagName("TD")[1];
-                      y = rows[i + 1].getElementsByTagName("TD")[1];
-
-                      //Comprobamos el orden de filtro
-                      if (selectedOption == "option-1"){
-                          if (parseInt(x.innerHTML,10) > parseInt(y.innerHTML,10)) {
-                              //if so, mark as a switch and break the loop:
-                              shouldSwitch = true;
-                              break;
-                          }
-                      } else{
-                          if (parseInt(x.innerHTML,10) < parseInt(y.innerHTML,10)) {
-                              //if so, mark as a switch and break the loop:
-                              shouldSwitch = true;
-                              break;
-                          }
-                      }
-
-                  } else{
-                      /*Filtro por valoracion del alojamiento*/
-                      x = rows[i].getElementsByTagName("TD")[2];
-                      y = rows[i + 1].getElementsByTagName("TD")[2];
-
-                      //Comprobamos el orden de filtro
-                      if (selectedOption == "option-3"){
-                          if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
-                              //if so, mark as a switch and break the loop:
-                              shouldSwitch = true;
-                              break;
-                          }
-                      } else if (selectedOption == "option-4"){
-                          if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
-                              //if so, mark as a switch and break the loop:
-                              shouldSwitch = true;
-                              break;
-                          }
-                      }
-                  }
-              } /*Fin bucle for*/
-
-              if (shouldSwitch) {
-                  /*If a switch has been marked, make the switch
-                  and mark that a switch has been done:*/
-                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                  switching = true;
-              }
-          }
-        }
-        </script>
-        
-        <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
-        <script type="text/javascript">
-            window.onload=function(){
-                var today = new Date().toISOString().split('T')[0];
-                document.getElementsByName("date_ini")[0].setAttribute('min', today);
-                document.getElementsByName("date_fin")[0].setAttribute('min', today);
-            }
-        </script>
-        
-        <!--Filtramos la fecha de salida una vez escojamos la fecha de entrada
-        1. Evitamos fecha de salida previa a la de entrada.
-        2. Establecemos una fecha de salida maxima segun el [RN-6].
-        -->
-        <script>
-          function changeDate(){
-            var min_date = document.getElementById("date_ini").value;
-            //Maximo tiempo de alquiler es 1 mes(30 dias) [RN-6]
-            var date = new Date(min_date);
-            date.setDate(date.getDate() + 30);
-            //Formato correcto
-            var max_date = date.toISOString().substring(0,10);
-
-            document.getElementsByName("date_fin")[0].setAttribute('min', min_date);
-            document.getElementsByName("date_fin")[0].setAttribute('max', max_date);
-          }
-        </script>
-
-
- 
+    
 </body>
 </html>

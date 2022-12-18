@@ -61,7 +61,7 @@
                         <td><button name = "boton" class="button button1" onclick="funcion()" style="width: auto;">Modificar <br> Precios</button></td>
                         <td><%= alojamiento.getNombre()%></td>
                         <td><%= alojamiento.getLocalidad()%></td>
-                        <td><%= alojamiento.getUbicacionDescrita()%></td>
+                        <td><%= alojamiento.getLatitud()%>, <%= alojamiento.getLongitud()%></td>
                         <td>Noche: <%= alojamiento.getIdPrecioActual().getPrecioNoche()%>
                             <br>Fin de Semana: <%= alojamiento.getIdPrecioActual().getPrecioFinDeSemana()%>
                             <br>Semana: <%= alojamiento.getIdPrecioActual().getPrecioSemana()%>

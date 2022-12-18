@@ -30,7 +30,7 @@ public class Precio {
         idAlojamiento = 0;
     }
 
-    public Precio(int idPreico, float precioNoche, float precioFinDeSemana, float precioSemana, float precioMes, Date fechaInicio, Date fechaFin, int idAlojamiento){
+    public Precio(int idPrecio, float precioNoche, float precioFinDeSemana, float precioSemana, float precioMes, Date fechaInicio, Date fechaFin, int idAlojamiento){
         setIdPrecio(idPrecio);
         setFechaFin(fechaFin);
         setFechaInicio(fechaInicio);

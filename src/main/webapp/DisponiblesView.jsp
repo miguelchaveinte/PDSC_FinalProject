@@ -1,20 +1,19 @@
-
-<%@page import="Modelo.UsuarioRegistrado"%>
 <%-- 
-    Document   : disponibles
-    Created on : 08-dic-2022, 1:54:33
+    Document   : DisponiblesView
+    Created on : 18-dic-2022, 12:40:38
     Author     : Jhon
 --%>
+
+<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="Modelo.Alojamiento"%>
-<%@page import="java.util.ArrayList"%>
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +29,7 @@
 <body>
     <div id="header">
         <div class="container">
+            
             <!-- Comprobamos la cabecera correspondiente -->
             <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
             <%
@@ -69,12 +69,8 @@
 
                         <!--Buscar Localidad-->                    
                         <div class="autocomplete" style="width:300px;">
-                            <%
-                                String localizacion = (String)request.getAttribute("local");
-                                System.out.println(localizacion);
-                                %>
                             <label for="localidad" style="font-size: 24px;">Localidad</label><br>
-                            <input id="myInput" type="text" name="myLocalidad" placeholder=Escribe... required>
+                            <input id="myInput" type="text" name="myLocalidad" placeholder="Localidad" required>
                         </div>
                         <br>
                         <input type="submit" class="button button1" value="Buscar">
@@ -86,63 +82,26 @@
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
                 <div class="header-text">
-                <!--Select para filtros-->
-                <label for="my-select" style="font-size: 24px;">Filtrar por:</label>
-                <select id="my-select" onchange="sortTable()">
-                    <option>Seleccione</option>
-                    <option value="option-1" onclick="">De menor a mayor capacidad</option>
-                      <option value="option-2">De mayor a menor capacidad</option>
-                      <option value="option-3">De menor a mayor valoración</option>
-                      <option value="option-4">De mayor a menor valoración</option>
-                </select><br><br>
-                <label id= "localidad" for="my-select" style="font-size: 24px;">Localidad: <%= localizacion %></label>
-         
+      
+                
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
                     <!--Cabeceras Tabla-->
                     <tr>
                         <th>Nombre</th>
                       <th>Capacidad</th>
-                      <th>Valoración</th>
+                      <th>ValoraciÃ³n</th>
                       <th>Imagen</th>
+                      
                     </tr>
 
-                    <!--Rows de la tabla-->
-                    <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
-                    <%
-                        ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
-                        int tipoerror = (int)request.getAttribute("tipoerror");
-                        if(tipoerror == 1){
-                    %>
-                    </table>
-                    <br>
-                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidas</label>
-               
-                        
-                    <%        
-                        }else{
-                            for (Alojamiento alojamiento : alojamientos_disponibles) {
-                            
-                    %>
-                      <tr>
-                        <td><%= alojamiento.getNombre() %></td>
-                        <td><%= alojamiento.getMaximoHuespedes() %></td>
-                        <td><%= alojamiento.getValoracion()%></td>
-                        <td><a href="Informacion?idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
-                      </tr>
-                      <%
-                          }
-                      %>
-                       </table>
-                       <%
-                        }
-                      %>
-            
+                </table>
                 </div>
             </div>        
 
         </div>
     </div>
+
 
     <!-----------------Autocompletado del buscador de Localidades----------------->
     <script>
@@ -243,7 +202,7 @@
           });
         }
         
-        /*Array que contiene las localidades de España*/
+        /*Array que contiene las localidades de EspaÃ±a*/
         var local_spain = localidades;
         
         /*initiate the autocomplete function on the "myInput" element, and pass along the locations array as possible autocomplete values:*/
@@ -256,7 +215,7 @@
                 //Obtenemos el valor de la localidad seleccionada
                 let x = document.forms["myForm"]["myLocalidad"].value;
                 if (!(localidades.includes(x))) {
-                  alert("Introduzca una localidad válida");
+                  alert("Introduzca una localidad vÃ¡lida");
                   return false;
                 }
             }
