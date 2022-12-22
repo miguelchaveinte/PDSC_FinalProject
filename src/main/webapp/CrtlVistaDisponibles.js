@@ -225,7 +225,7 @@ function function1(){
        // Ajax POST request.
        resultado= $.ajax({
            type: 'GET',
-           url: 'http://localhost:8080/PDSC/Disponibles',
+           url: 'http://localhost:8080/PDSC/DisponiblesServlet',
            data: {"date_ini": fecha_ini, "date_fin": fecha_fin, "myLocalidad": localidad},
            dataType: "text",
             async: false,
@@ -234,15 +234,39 @@ function function1(){
            }
        });
 
-       console.log(resultado.responseText);
-       alert("view");
-
         if(resultado.responseText=="No existen alojamientos disponibles para el municipio y las fechas introducidas\r\n") {
-            document.getElementById('myTable').style.display="none";
-            document.getElementById('erro1').style.display="block"; 
-            document.getElementById('erro1').innerHTML="No existen alojamientos disponibles para el municipio y las fechas introducidas";
+            if(document.getElementById('myTable') != null){
+                
+                document.getElementById('myTable').style.display="none";
+
+                // Obtener el elemento a comprobar
+                var element = document.getElementById('aqui');
+
+                // Eliminar todos los hijos del elemento
+                while (element.firstChild) {
+                  element.removeChild(element.firstChild);
+                }
+
+                var h4 = document.createElement('h4');
+                // Establecer los atributos del elemento h4
+                h4.setAttribute('id', 'error1');
+                h4.style.display = 'block';
+                // Establecer el contenido del elemento h4
+                h4.textContent = 'No existen alojamientos disponibles para el municipio y las fechas introducidas';
+                // Obtener la tabla a la que se desea agregar el elemento h4
+                var container = document.getElementById('aqui');
+                // Agregar el elemento h4 a la tabla utilizando appendChild
+                container.appendChild(h4);           
+
+                //document.getElementById('erro1').style.display="block";
+                //document.getElementById('erro1').innerHTML="No existen alojamientos disponibles para el municipio y las fechas introducidas";
+
+                //event.preventDefault();
+                //return false;
+            }
             event.preventDefault();
             return false;
+            
         }else {
             window.location.href= 'http://localhost:8080/PDSC/disponibles.jsp';
             //window.reload(true);
@@ -250,7 +274,6 @@ function function1(){
             return false;
         }
     }
-
 }
 
 
@@ -276,7 +299,7 @@ function function2(){
        // Ajax POST request.
        resultado= $.ajax({
            type: 'GET',
-           url: 'http://localhost:8080/PDSC/Disponibles',
+           url: 'http://localhost:8080/PDSC/DisponiblesServlet',
            data: {"date_ini": fecha_ini, "date_fin": fecha_fin, "myLocalidad": localidad},
            dataType: "text",
             async: false,
@@ -291,7 +314,7 @@ function function2(){
             document.getElementById('erro1').style.display="block"; 
             document.getElementById('erro1').innerHTML="No existen alojamientos disponibles para el municipio y las fechas introducidas";
             event.preventDefault();
-            return false;
+            return false; 
         }else {
             //window.location.href= 'http://localhost:8080/PDSC/disponibles.jsp';
             window.reload(true);

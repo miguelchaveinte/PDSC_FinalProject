@@ -4,9 +4,13 @@
     Author     : Jhon
 --%>
 
-<%@page import="Modelo.Alojamiento"%>
+<%@page import="Utils.Alojamiento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="CrtlVistaReservas.js"></script>
                    
 <!-- Boton de confirmar Reserva + Modal que estara oculto en funcion del CU -->
@@ -18,7 +22,7 @@
     <form class="modal-content animate">
         <div class="imgcontainer">
             <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="icon_vacation.png" alt="Avatar" class="avatar">
+            <img src="./Imgs_Alojamientos/icon_vacation.png" alt="Avatar" class="avatar">
         </div>
 
         <div class="container" style="padding: 16px">
@@ -56,11 +60,6 @@
 </div>
 <!-- Fin del Modal Oculto -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 <script>
 function confirmReserva(){   
     // Get the text from the two inputs.   
@@ -91,6 +90,8 @@ function confirmReserva(){
             return datos;
         }
     });
+    
+    console.log(resultado.responseText);
 
     if(resultado.responseText=="Lo sentimos, el alojamiento esta reservado en esas fechas\r\n") {
         document.getElementById('erro1').style.display="block"; 
@@ -109,10 +110,15 @@ function confirmReserva(){
         return false;
     } else {
         //Meter mensaje oculto y mostrar cuando reserve (display="block")
+        
         document.getElementById('id02').style.display='none';
+        
+        //Mostrar el mensaje de confirmacion en el jsp de info alojamiento
         var elem = document.querySelector('.reservaComplete');
         elem.style.display = 'block';
         document.getElementById('reservaComplete').style.display="block";
+        
+        event.preventDefault();
         return false;
     }
 }

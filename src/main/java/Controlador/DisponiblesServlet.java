@@ -2,16 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Alojamiento;
-import Modelo.UsuarioRegistrado;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Alojamiento;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -24,10 +25,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author hecto
+ * @author Jhon
  */
-@WebServlet(name = "AnfitrionServlet", urlPatterns = {"/AnfitrionServlet"})
-public class AnfitrionServlet extends HttpServlet {
+@WebServlet(name = "DisponiblesServlet", urlPatterns = {"/DisponiblesServlet"})
+public class DisponiblesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,15 +42,15 @@ public class AnfitrionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AnfitrionServlet</title>");            
+            out.println("<title>Servlet Disponibles</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AnfitrionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Disponibles at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,27 +68,44 @@ public class AnfitrionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        UsuarioRegistrado usuario = (UsuarioRegistrado)session.getAttribute("user");
-        int idAnf = usuario.getId();
-       
-        ArrayList<Alojamiento> alojamientos_anfitrion = new ArrayList<Alojamiento>();
-        try {
-            /*fechaEntrada = date.parse(entrada);
-            fechaSalida = date.parse(salida);*/
-            alojamientos_anfitrion = AlojamientoDB.getAlojamientosAnf(idAnf);
-            System.out.println("En el servlet: " + alojamientos_anfitrion);
-           
-            request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
-            String url = "/registrar.jsp";
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-                dispatcher.forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AnfitrionServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+        
+        response.setContentType("text/html;charset=UTF-8");
 
-    
+        /* Creacion booleano que detecta errores */
+        boolean error = false;
+        
+        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
+        String entrada = request.getParameter("date_ini");
+        String salida = request.getParameter("date_fin");
+        String localidad = request.getParameter("myLocalidad");
+
+        request.setAttribute("local", localidad);
+        
+        ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
+
+        try {
+            alojamientos_disponibles = AlojamientoDAO.getListaAlojamientos(localidad, entrada, salida);
+            /* Si no existe alojamientos es null entonces error */
+            if(alojamientos_disponibles.isEmpty()){
+                error = true;
+            }
+            
+            if(error){
+                PrintWriter out=response.getWriter();
+                out.println("No existen alojamientos disponibles para el municipio y las fechas introducidas");
+            }else{
+                request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
+                String url = "/disponibles.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            }
+        } catch (SQLException ex) {
+                Logger.getLogger(DisponiblesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(DisponiblesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.

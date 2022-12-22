@@ -6,18 +6,21 @@
 
 function compruebaLogin(){
     // Get the text from the two inputs.
+    console.log("COSITIIIIS");
     var email = $("#email").val();
     var password = $("#password").val();
 
     var resultado=new XMLHttpRequest();
     //var emailUser=document.getElementById('email');
+    
+    
 
     if(password!="" && email!=""){
 
         // Ajax POST request.
         resultado= $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/PDSC/Registro',
+            url: 'http://localhost:8080/PDSC/RegistroServlet',
             data: {"password": password,"email": email},
             dataType: "text",
              async: false,
@@ -27,7 +30,6 @@ function compruebaLogin(){
         });
         
         console.log(resultado.responseText);
-        //alert("inicio");
 
         if(resultado.responseText=="El email introducido no existe en la base de datos\r\n") {
             document.getElementById('erro1').style.display="block"; 
@@ -40,7 +42,6 @@ function compruebaLogin(){
             event.preventDefault();
             return false;
         }else {
-            //alert("toca login");
             window.location.href= 'http://localhost:8080/PDSC/Logged.jsp';
             //return false;
         }

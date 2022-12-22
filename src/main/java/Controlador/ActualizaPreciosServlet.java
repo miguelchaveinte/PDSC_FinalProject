@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Alojamiento;
-import Modelo.Precio;
-import Modelo.UsuarioRegistrado;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Alojamiento;
+import Utils.Precio;
+import Utils.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -30,8 +30,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hecto
  */
-@WebServlet(name = "ActualizaPrecios", urlPatterns = {"/ActualizaPrecios"})
-public class ActualizaPrecios extends HttpServlet {
+@WebServlet(name = "ActualizaPreciosServlet", urlPatterns = {"/ActualizaPreciosServlet"})
+public class ActualizaPreciosServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -115,7 +115,7 @@ public class ActualizaPrecios extends HttpServlet {
             Date finParseado = parseo.parse(fin);
             
             //Obtenemos los alojamientos del anfitrión
-            ArrayList<Alojamiento> alojs = AlojamientoDB.getAlojamientosAnf(idAnf);
+            ArrayList<Alojamiento> alojs = AlojamientoDAO.getAlojamientosAnf(idAnf);
             //Creamos un nuevo precio con el id del precio anterior (cuando se añada a la base de datos el id va a ser un autoincrement, ponemos el id del precio anterior para facilitar la segunda consulta que se hace en el metodo update)
             Precio precioNuevo = new Precio(alojs.get(Integer.parseInt(idboton)).getIdPrecioActual().getIdPrecio(),noche,finsemana,semana,mes,fechaActu,finParseado,alojs.get(Integer.parseInt(idboton)).getIdAlojamiento());
             
@@ -123,15 +123,15 @@ public class ActualizaPrecios extends HttpServlet {
             request.setAttribute("alojamientos_anfitrion", alojs);
             
             //Actualizamos el precio
-            AlojamientoDB.updatePrecio(precioNuevo.getIdAlojamiento(), precioNuevo);
+            AlojamientoDAO.updatePrecio(precioNuevo.getIdAlojamiento(), precioNuevo);
 
             String url = "/registrar.jsp";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
             dispatcher.forward(request, response);
         } catch (ParseException ex) {
-            Logger.getLogger(ActualizaPrecios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActualizaPreciosServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ActualizaPrecios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActualizaPreciosServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
            
     }   

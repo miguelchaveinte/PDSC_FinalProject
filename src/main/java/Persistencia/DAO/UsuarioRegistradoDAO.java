@@ -1,7 +1,7 @@
-package Datos.DAO;
+package Persistencia.DAO;
 
-import Datos.ConnectionPool;
-import Modelo.UsuarioRegistrado;
+import Persistencia.ConnectionPool;
+import Utils.UsuarioRegistrado;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
  *
  * @author hecto
  */
-public class UsuarioRegistradoDB {
+public class UsuarioRegistradoDAO {
 
 
     public static boolean emailExists(String correo) {

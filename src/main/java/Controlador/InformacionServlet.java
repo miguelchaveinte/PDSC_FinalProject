@@ -2,17 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Alojamiento;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Alojamiento;
+import Utils.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -27,8 +24,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jhon
  */
-@WebServlet(name = "Disponibles", urlPatterns = {"/Disponibles"})
-public class Disponibles extends HttpServlet {
+@WebServlet(name = "InformacionServlet", urlPatterns = {"/InformacionServlet"})
+public class InformacionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +44,10 @@ public class Disponibles extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Disponibles</title>");            
+            out.println("<title>Servlet Informacion</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Disponibles at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Informacion at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,42 +66,37 @@ public class Disponibles extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.setContentType("text/html;charset=UTF-8");
-
-        /* Creacion booleano que detecta errores */
-        boolean error = false;
+        /*Informacion de los alojamientos*/
+        HttpSession session = request.getSession();
+        UsuarioRegistrado user= (UsuarioRegistrado) session.getAttribute("user");
         
-        /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
-        String entrada = request.getParameter("date_ini");
-        String salida = request.getParameter("date_fin");
-        String localidad = request.getParameter("myLocalidad");
+        int idAlojamiento = Integer.parseInt(request.getParameter("idAlojamiento"));
+        Alojamiento alojamiento = null;
 
-        request.setAttribute("local", localidad);
-        
-        ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
+        int value = 0;
+        String tipo = request.getParameter("tipo");
+        if (tipo.equals("Disponibles")){
+            value = 1; //Valor 1 si la informacion es referente a los alojamientos disponibles
+        } else{
+            value = 2; //Valor 2 si la informacion es referente a los alojamientos para reservar
+        }  
 
         try {
-            alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, entrada, salida);
-            /* Si no existe alojamientos es null entonces error */
-            if(alojamientos_disponibles.isEmpty()){
-                error = true;
-            }
+            alojamiento = AlojamientoDAO.getInfoAlojamiento(idAlojamiento);
+            System.out.println(alojamiento);
+            System.out.println("Chequeo de alojamiento");
             
-            if(error){
-                PrintWriter out=response.getWriter();
-                out.println("No existen alojamientos disponibles para el municipio y las fechas introducidas");
-            }else{
-                request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
-                String url = "/disponibles.jsp";
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-                dispatcher.forward(request, response);
-            }
         } catch (SQLException ex) {
-                Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InformacionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        request.setAttribute("infoAlojamiento",alojamiento);
+        //Seteamos el valor en funcion del tipo obtenido
+        request.setAttribute("value", value);
         
+        String url = "/info_alojamiento.jsp?idAlojamiento="+idAlojamiento;
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     /**

@@ -4,19 +4,19 @@
     Author     : Jhon
 --%>
 
-<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="Utils.UsuarioRegistrado"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="Modelo.Alojamiento"%>
+<%@page import="Utils.Alojamiento"%>
 <%@page import="java.util.ArrayList"%>
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
-    /*if (usuario==null){
+    if (usuario==null){
         usuario = new UsuarioRegistrado();
         usuario.setRol("usuario");
         System.out.println("rol es"+usuario.getRol());
-    }*/
+    }
     
     Alojamiento alojamiento = (Alojamiento) request.getAttribute("infoAlojamiento");
     int value = (Integer) request.getAttribute("value");
@@ -34,7 +34,11 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="CrtlVistaReservas.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="CrtlVistaReservas.js"></script>-->
 </head>
 
 

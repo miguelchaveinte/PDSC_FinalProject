@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Alojamiento;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Alojamiento;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -78,7 +78,7 @@ public class ReservasServlet extends HttpServlet {
         ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
 
         try {
-            alojamientos_disponibles = AlojamientoDB.getListaReservas(localidad, huespedes);
+            alojamientos_disponibles = AlojamientoDAO.getListaReservas(localidad, huespedes);
             /* Si no existe alojamientos es null entonces error */
             if(alojamientos_disponibles.isEmpty()){
                 error = true;

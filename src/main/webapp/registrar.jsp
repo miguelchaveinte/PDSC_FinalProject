@@ -1,6 +1,6 @@
-<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="Utils.UsuarioRegistrado"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Modelo.Alojamiento"%>
+<%@page import="Utils.Alojamiento"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 

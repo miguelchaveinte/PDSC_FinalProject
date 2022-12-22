@@ -4,9 +4,9 @@
     Author     : Jhon
 --%>
 
-<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="Utils.UsuarioRegistrado"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="Modelo.Alojamiento"%>
+<%@page import="Utils.Alojamiento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -24,6 +24,10 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="localidades_spain.js"></script>
     <script type="text/javascript" src="CrtlVistaReservas.js"></script>
 </head>
@@ -105,7 +109,7 @@
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getValoracion()%></td>
-                        <td><a href="Informacion?tipo=Reservas&idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
+                        <td><a href="InformacionServlet?tipo=Reservas&idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
                       </tr>
                       <%
                           }
@@ -120,7 +124,6 @@
 
         </div>
     </div>
-
 
     <!-----------------Autocompletado del buscador de Localidades----------------->
     <script>        

@@ -56,7 +56,7 @@ function comprobaciones(){
         var resultado=new XMLHttpRequest();
         resultado= $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/PDSC/ActualizaPrecios',
+            url: 'http://localhost:8080/PDSC/ActualizaPreciosServlet',
             data: {"noche": noche,"finde": finsemana, "semana": semana,"mes": mes,"date_fin":date_fin,"botpulsado":botpulsado},
             dataType: "text",
             async: false,

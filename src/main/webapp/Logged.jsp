@@ -6,7 +6,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="Modelo.UsuarioRegistrado"%>
+<%@ page import="Utils.UsuarioRegistrado"%>
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
@@ -48,7 +48,7 @@
             </div>
 
             <div style="width: 50%; float: right;">
-                <img src="img_principal.jpg" alt="VacationAsHome" width="550" height="450">
+                <img src="./Imgs_Alojamientos/img_principal.jpg" alt="VacationAsHome" width="550" height="450">
             </div>
                      
 

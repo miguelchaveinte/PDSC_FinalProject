@@ -128,8 +128,72 @@ function changeDate(){
 
 
 //Filtro de fechas, evitar fechas previas al dia actual
+//Sera necesaria unicamente para la ventana de informacion de alojamientos
 window.onload=function(){
     var today = new Date().toISOString().split('T')[0];
     document.getElementsByName("date_ini")[0].setAttribute('min', today);
     document.getElementsByName("date_fin")[0].setAttribute('min', today);
 };
+
+
+function confirmReserva(){   
+    // Get the text from the two inputs.   
+    var idAlojamiento = '<%=alojamiento.getIdAlojamiento()%>';
+    var fecha_ini = $("#date_ini").val();
+    var fecha_fin = $("#date_fin").val();
+    var huespedes = '<%=alojamiento.getMaximoHuespedes()%>';
+    var message = $("#biografia").val();
+    var estado = 'realizada';
+    var pago_fraccionado = document.getElementById("pago");
+    var pulsado = false;
+    if (pago_fraccionado.checked){
+        pulsado = true;
+    } else{
+        pulsado = false;
+    }
+
+    var resultado=new XMLHttpRequest();
+
+    // Ajax POST request.
+    resultado= $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/PDSC/ConfirmarReservaServlet',
+        data: {"idAlojamiento": idAlojamiento, "date_ini": fecha_ini,"date_fin": fecha_fin, "huespedes":huespedes, "biografia":message, "pago":pulsado, "estado":estado},
+        dataType: "text",
+         async: false,
+        success: function( datos ) {
+            return datos;
+        }
+    });
+    
+    console.log(resultado.responseText);
+
+    if(resultado.responseText=="Lo sentimos, el alojamiento esta reservado en esas fechas\r\n") {
+        document.getElementById('erro1').style.display="block"; 
+        document.getElementById('erro1').innerHTML="Lo sentimos, el alojamiento esta reservado en esas fechas";
+        event.preventDefault();
+        return false;
+    } else if(resultado.responseText=="Lo sentimos, el anfitrion no puede realizar reservas\r\n") {
+        document.getElementById('erro1').style.display="block"; 
+        document.getElementById('erro1').innerHTML="Lo sentimos, el anfitrion no puede realizar reservas";
+        event.preventDefault();
+        return false;
+    } else if(resultado.responseText=="Lo sentimos, el mensaje para el anfitrion no puede estar vacio\r\n") {
+        document.getElementById('erro1').style.display="block"; 
+        document.getElementById('erro1').innerHTML="Lo sentimos, el mensaje para el anfitrion no puede estar vacio";
+        event.preventDefault();
+        return false;
+    } else {
+        //Meter mensaje oculto y mostrar cuando reserve (display="block")
+        
+        document.getElementById('id02').style.display='none';
+        
+        //Mostrar el mensaje de confirmacion en el jsp de info alojamiento
+        var elem = document.querySelector('.reservaComplete');
+        elem.style.display = 'block';
+        document.getElementById('reservaComplete').style.display="block";
+        
+        event.preventDefault();
+        return false;
+    }
+}

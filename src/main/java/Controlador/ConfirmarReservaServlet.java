@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Reserva;
-import Modelo.UsuarioRegistrado;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Reserva;
+import Utils.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -116,7 +116,7 @@ public class ConfirmarReservaServlet extends HttpServlet {
                 out.println("Lo sentimos, el mensaje para el anfitrion no puede estar vacio");
             } else{
 
-                resultado = AlojamientoDB.insertReserva(user.getId(), Integer.parseInt(idAlojamiento), fecha_inicio, fecha_fin, Integer.parseInt(huespedes), message, estado, pago_fraccionado);
+                resultado = AlojamientoDAO.insertReserva(user.getId(), Integer.parseInt(idAlojamiento), fecha_inicio, fecha_fin, Integer.parseInt(huespedes), message, estado, pago_fraccionado);
 
                 if(!resultado){
                     //Si es False, el Alojamiento no puede ser Reservado en esas fechas

@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.UsuarioRegistradoDB;
-import Modelo.UsuarioRegistrado;
+import Persistencia.DAO.UsuarioRegistradoDAO;
+import Utils.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jhon
  */
-@WebServlet(name = "Registro", urlPatterns = {"/Registro"})
-public class Registro extends HttpServlet {
+@WebServlet(name = "RegistroServlet", urlPatterns = {"/RegistroServlet"})
+public class RegistroServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -86,10 +86,10 @@ public class Registro extends HttpServlet {
         boolean error = false;
         int tipoError = 0;
         
-        if (UsuarioRegistradoDB.emailExists(email) && (id = UsuarioRegistradoDB.comprobarUsuario(email,password)) != -1) {
+        if (UsuarioRegistradoDAO.emailExists(email) && (id = UsuarioRegistradoDAO.comprobarUsuario(email,password)) != -1) {
             url = "/Logged.jsp";
             try{
-                user = UsuarioRegistradoDB.seleccionaUsuario(id);
+                user = UsuarioRegistradoDAO.seleccionaUsuario(id);
             } catch(Exception e){
                 //user.setContraseña(password);
                 //user.setEmail(email);
@@ -103,7 +103,7 @@ public class Registro extends HttpServlet {
             dispatcher.forward(request, response);
             //PrintWriter out=response.getWriter();
             //out.println();
-        }else if(UsuarioRegistradoDB.emailExists(email) == false){
+        }else if(UsuarioRegistradoDAO.emailExists(email) == false){
             error = true;
             tipoError = 1;
         }else{

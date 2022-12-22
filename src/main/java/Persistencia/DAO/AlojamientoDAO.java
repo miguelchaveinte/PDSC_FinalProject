@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Datos.DAO;
+package Persistencia.DAO;
 
-import Datos.ConnectionPool;
-import Modelo.Alojamiento;
-import Modelo.Precio;
-import Modelo.Reserva;
-import Modelo.UsuarioRegistrado;
+import Persistencia.ConnectionPool;
+import Utils.Alojamiento;
+import Utils.Precio;
+import Utils.Reserva;
+import Utils.UsuarioRegistrado;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,9 +25,8 @@ import java.util.Date;
  *
  * @author Jhon
  */
-public class AlojamientoDB {
+public class AlojamientoDAO {
 
-//CERRAR TODAS COMSULTRAS PS.CLOSE -->TODO
     public static ArrayList<Alojamiento> getListaAlojamientos(String localidad, String fechaEntrada, String fechaSalida) throws SQLException, ParseException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -66,6 +65,9 @@ public class AlojamientoDB {
                 while (rs2.next()){
                     valoracion=rs2.getFloat("VALORACIONMEDIA");
                 }
+                rs2.close();
+                ps2.close();
+
                 ps3 = connection.prepareStatement(precio);
                 ps3.setInt(1,rs.getInt("idPrecioActual")); 
                 rs3 = ps3.executeQuery();
@@ -76,7 +78,7 @@ public class AlojamientoDB {
                 Alojamiento alojamiento=new Alojamiento(rs.getInt("idAlojamiento"),rs.getInt("idAnfitrion"),rs.getString("idFotoPortada"),precioActual,rs.getDate("fechaEntradaEnSimpleBnB"),rs.getString("nombre"),rs.getInt("maximoHuespedes"),rs.getInt("numeroDormitorios"),rs.getInt("numeroCamas"),rs.getInt("numeroBanos"),rs.getString("ubicacionDescrita"),rs.getFloat("longitud"),rs.getFloat("latitud"),rs.getBoolean("reservaRequiereAceptacionPropietario"),localidad, valoracion, null, null);
                 alojamientos.add(alojamiento);
             }
-                
+            rs.close();
             ps.close();
             pool.freeConnection(connection);
             

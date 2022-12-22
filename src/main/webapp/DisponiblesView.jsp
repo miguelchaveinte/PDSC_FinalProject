@@ -4,19 +4,17 @@
     Author     : Jhon
 --%>
 
-<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="Utils.UsuarioRegistrado"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");    
-    System.out.println("usuario es:"+usuario);
     
     if (usuario==null){
         usuario = new UsuarioRegistrado();
         usuario.setRol("usuario");
-        System.out.println("rol es"+usuario.getRol());
     }
 %>
 
@@ -29,8 +27,13 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="localidades_spain.js"></script>
     <script type="text/javascript" src="CrtlVistaDisponibles.js"></script>
+    <script type="text/javascript" src="CrtlVistaLogin.js"></script>
 </head>
 
 
@@ -60,7 +63,7 @@
                     <br>
                     
                     <!--Make sure the form has the autocomplete function switched off-->
-                    <form autocomplete="off" name="myForm" action="Disponibles" method="GET" > <!-- action="Disponibles" method="GET" -->
+                    <form autocomplete="off" name="myForm" action="DisponiblesServlet" method="GET" >
                         <!--------Filtro Fechas-------->
                         <div style="width: 40%; float: left;">
                             <!--Fecha Inicio-->
@@ -89,7 +92,7 @@
 
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
-                <div class="header-text">
+                <div class="header-text" id="aqui">
                 
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
@@ -102,7 +105,6 @@
                     </tr>
                 </table>
                 
-                <h4 id="erro1" style="display: none">No existen alojamientos disponibles para el municipio y las fechas introducidas</h4>
                 
                 </div>
             </div>        

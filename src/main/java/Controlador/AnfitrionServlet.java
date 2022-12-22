@@ -2,14 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Control;
+package Controlador;
 
-import Datos.DAO.AlojamientoDB;
-import Modelo.Alojamiento;
-import Modelo.UsuarioRegistrado;
+import Persistencia.DAO.AlojamientoDAO;
+import Utils.Alojamiento;
+import Utils.UsuarioRegistrado;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -22,10 +24,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Jhon
+ * @author hecto
  */
-@WebServlet(name = "Informacion", urlPatterns = {"/Informacion"})
-public class Informacion extends HttpServlet {
+@WebServlet(name = "AnfitrionServlet", urlPatterns = {"/AnfitrionServlet"})
+public class AnfitrionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,15 +41,15 @@ public class Informacion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Informacion</title>");            
+            out.println("<title>Servlet AnfitrionServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Informacion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AnfitrionServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,44 +67,27 @@ public class Informacion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        /*Informacion de los alojamientos*/
         HttpSession session = request.getSession();
-        UsuarioRegistrado user= (UsuarioRegistrado) session.getAttribute("user");
-        
-        int idAlojamiento = Integer.parseInt(request.getParameter("idAlojamiento"));
-        Alojamiento alojamiento = null;
-
-        int value = 0;
-        String tipo = request.getParameter("tipo");
-        if (tipo.equals("Disponibles")){
-            value = 1; //Valor 1 si la informacion es referente a los alojamientos disponibles
-        } else{
-            value = 2; //Valor 2 si la informacion es referente a los alojamientos para reservar
-        }
-
-        System.out.println(value);
-        System.out.println("Pruebas de tipo");
-
-   
-
+        UsuarioRegistrado usuario = (UsuarioRegistrado)session.getAttribute("user");
+        int idAnf = usuario.getId();
+       
+        ArrayList<Alojamiento> alojamientos_anfitrion = new ArrayList<Alojamiento>();
         try {
-            alojamiento = AlojamientoDB.getInfoAlojamiento(idAlojamiento);
-            System.out.println(alojamiento);
-            System.out.println("Chequeo de alojamiento");
-            
+            /*fechaEntrada = date.parse(entrada);
+            fechaSalida = date.parse(salida);*/
+            alojamientos_anfitrion = AlojamientoDAO.getAlojamientosAnf(idAnf);
+            System.out.println("En el servlet: " + alojamientos_anfitrion);
+           
+            request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
+            String url = "/registrar.jsp";
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+                dispatcher.forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Informacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnfitrionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        request.setAttribute("infoAlojamiento",alojamiento);
-        //Seteamos el valor en funcion del tipo obtenido
-        request.setAttribute("value", value);
-        
-        String url = "/info_alojamiento.jsp?idAlojamiento="+idAlojamiento;
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
+
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.

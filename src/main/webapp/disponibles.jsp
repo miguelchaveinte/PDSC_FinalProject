@@ -1,5 +1,5 @@
 
-<%@page import="Modelo.UsuarioRegistrado"%>
+<%@page import="Utils.UsuarioRegistrado"%>
 <%-- 
     Document   : disponibles
     Created on : 08-dic-2022, 1:54:33
@@ -7,7 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="Modelo.Alojamiento"%>
+<%@page import="Utils.Alojamiento"%>
 <%@page import="java.util.ArrayList"%>
 
 <%
@@ -96,7 +96,7 @@
 
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
-                <div class="header-text">
+                <div class="header-text" >
                 <!--Select para filtros-->
                 <label for="my-select" style="font-size: 24px;">Filtrar por:</label>
                 <select id="my-select" onchange="sortTable()">
@@ -106,7 +106,6 @@
                       <option value="option-3">De menor a mayor valoración</option>
                       <option value="option-4">De mayor a menor valoración</option>
                 </select><br><br>
-                <!--<label id= "localidad" for="my-select" style="font-size: 24px;">Localidad: <%= localizacion %></label>-->
                 <label id= "localidad" for="my-select" style="font-size: 24px;">Localidad:</label><span id="nombreLocalidad" style="font-size: 24px;"><%= localizacion %></span>
          
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
@@ -131,7 +130,7 @@
                         <td><%= alojamiento.getNombre() %></td>
                         <td><%= alojamiento.getMaximoHuespedes() %></td>
                         <td><%= alojamiento.getValoracion()%></td>
-                        <td><a href="Informacion?tipo=Disponibles&idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
+                        <td><a href="InformacionServlet?tipo=Disponibles&idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
                       </tr>
                       <%
                           }
