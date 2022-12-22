@@ -73,6 +73,19 @@ public class Informacion extends HttpServlet {
         int idAlojamiento = Integer.parseInt(request.getParameter("idAlojamiento"));
         Alojamiento alojamiento = null;
 
+        int value = 0;
+        String tipo = request.getParameter("tipo");
+        if (tipo.equals("Disponibles")){
+            value = 1; //Valor 1 si la informacion es referente a los alojamientos disponibles
+        } else{
+            value = 2; //Valor 2 si la informacion es referente a los alojamientos para reservar
+        }
+
+        System.out.println(value);
+        System.out.println("Pruebas de tipo");
+
+   
+
         try {
             alojamiento = AlojamientoDB.getInfoAlojamiento(idAlojamiento);
             System.out.println(alojamiento);
@@ -83,6 +96,8 @@ public class Informacion extends HttpServlet {
         }
 
         request.setAttribute("infoAlojamiento",alojamiento);
+        //Seteamos el valor en funcion del tipo obtenido
+        request.setAttribute("value", value);
         
         String url = "/info_alojamiento.jsp?idAlojamiento="+idAlojamiento;
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);

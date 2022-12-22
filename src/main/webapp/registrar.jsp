@@ -1,5 +1,13 @@
+<%@page import="Modelo.UsuarioRegistrado"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Modelo.Alojamiento"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+    UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,24 +17,25 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="CrtlVistaPrecios.js"></script>
 </head>
-
 
 <body>
     <div id="header">
         <div class="container">
-            <nav>
-                <ul id="sidemenu">
-                    <!--<img src="icon_vacation.png" alt="VacationAsHome" width="210" height="120">-->
-                    <li><a href="disponibles.html">Alojamientos Disponibles</a></li>
-                    <li><a href="reserva.html">Reservar Alojamiento</a></li>
-                    <li><a href="#">Registrar Nuevos Precios</a></li>
-                    <button class="button button1" style="width: auto;">Bienvenido</button>
-                </ul>
-            </nav>
+            
+            <!-- Comprobamos la cabecera correspondiente -->
+            <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
+            <c:if test="${rol=='anfitrion'}">
+                <%@include file="./Anfitrion_Header.jsp" %>
+            </c:if>            
         
         <h1 style="text-align: center;">Sus alojamientos</h1><br>
-
+       
         <!--Tabla Alojamientos-->
         <table>
             <!--Cabeceras Tabla-->
@@ -42,24 +51,27 @@
             <!--Rows de la tabla-->
             <%
                 ArrayList<Alojamiento> alojamientos_anfitrion = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_anfitrion");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
-                    int tipoerror = (int)request.getAttribute("tipoerror");
-                    int idbutton = 0;
-                    int idpulsado = 0;
-                    if(tipoerror == 1){
-            
+                int idbutton = 0;
+                request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
             %>
+            
+            <c:set var = "alojamientos" value = "<%=alojamientos_anfitrion%>"/>
+            <c:if test="${alojamientos.isEmpty()== true}">
+            
             </table>
                     <br>
-                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio y las fechas introducidas</label><!-- comment -->
+                    <label id= "error" for="my-select" style="font-size: 24px;">Usted no dipone de Alojamientos</label><!-- comment -->
+            
+            </c:if>
+            
+            <c:if test="${alojamientos.isEmpty()== false}">
             <%        
-                    }else{
-                        for (Alojamiento alojamiento : alojamientos_anfitrion) {
-                            
+                for (Alojamiento alojamiento : alojamientos_anfitrion) {      
             %>
             <tr>
                         <td><img src="<%= alojamiento.getIdFotoPortada()%>" width="250" height="179"></td>
-                        <td><button name = "boton" class="button button1" onclick="funcion()" style="width: auto;">Modificar <br> Precios</button></td>
-                        <td><%= alojamiento.getNombre()%></td>
+                        <td><button name = "boton" class="button button1" onclick="tarjeta()" type="button" style="width: auto;">Modificar <br> Precios</button></td>
+                        <td id = "<%=idbutton%>"><%= alojamiento.getNombre()%></td>
                         <td><%= alojamiento.getLocalidad()%></td>
                         <td><%= alojamiento.getLatitud()%>, <%= alojamiento.getLongitud()%></td>
                         <td>Noche: <%= alojamiento.getIdPrecioActual().getPrecioNoche()%>
@@ -69,19 +81,20 @@
             </tr>
                     <% 
                         idbutton = idbutton +1;}
-                    }%>
+                    %>
+                    
+             </c:if>
         </table>
-        <div id = "botpulsado"></div>
         
         <!--Modal-->
         <div id="id03" class="modal">
             <!--Form-->
            
-            <form class="modal-content animate" action="/inicio_2.html"> <!--action="/usuarioregistrado.jsp" method="POST"-->
+            <form class="modal-content animate">
             
                 <div class="imgcontainer">
+                    <input name = 'botpulsado' id = "botpulsado" hidden></input>
                     <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="./Imgs_Alojamientos/img1.jpeg" alt="Avatar" class="avatar">
                 </div>
 
                 <div class="container" style="padding: 16px">
@@ -92,62 +105,47 @@
                     <p>
                         <label for="noche"><b>Precio por noche:</b></label>
                         <!--<input type="text" placeholder="70?" name="noche"><br>-->
-                        <input type="number" value="70" id = 'Noche'><br><br>
+                        <input type="number" placeholder="Cantidad" name = 'Noche' id="noche"><br><br>
                     </p>
 
                     <!-- Finde -->
                     <p>
                         <label for="finde"><b>Precio fin de semana:</b></label>
                         <!--<input type="text" placeholder="200?" name="finde"><br>-->
-                        <input type="number" value="200" id = 'FinSemana'><br><br>
+                        <input type="number" placeholder="Cantidad" name = 'FinSemana' id="finde"><br><br>
                     </p>
 
                     <!-- Semana -->
                     <p>
                         <label for="semana"><b>Precio una semana:</b></label>
                         <!--<input type="text" placeholder="500?" name="semana"><br>-->
-                        <input type="number" value="500" id = 'Semana'><br><br>
+                        <input type="number" placeholder="Cantidad" name = 'Semana' id="semana"><br><br>
                     </p>
 
                     <!-- Mes -->
                     <p>
                         <label for="mes"><b>Precio por mes:</b></label>
                         <!--<input type="text" placeholder="3000?" name="mes"><br>-->
-                        <input type="number" value="3000" id = 'Mes'><br><br>
+                        <input type="number" placeholder="Cantidad" name = 'Mes' id="mes"><br><br>
                     </p>
 
                     <!--Fin Vigencia-->
                     <label for="date_fin" style="font-size: 24px;">Fecha de fin de vigencia: </label>
-                    <input type="date" id="date_fin" name="date_fin">
+                    <input type="date" id="date_fin" name='date_fin'>
                     <br><br>
-                    
+                    <br>
+                    <h4 name='erro1' id="erro1" style="display: none">No existen alojamientos disponibles</h4>
+                    <br>
                     <!-- Submit Button -->
-                    <button type="submit">Guardar Tarjeta</button>
+                    <button type="submit" id="submit1" onclick="comprobaciones()">Guardar Tarjeta</button>
 
                 </div>
             </form>
             
         </div>
         
-
-
         </div>
     </div>
-    
-    <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
-    <script type="text/javascript">
-        window.onload=function(){
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementsByName("date_fin")[0].setAttribute('min', today);
-        }
-        
-        function funcion(){
-            
-            var fila = event.target.parentNode.parentNode;
-            var numFila = fila.rowIndex - 1;
-            document.getElementById("botpulsado").innerHTML=numFila;
-
-    </script>
-    
+       
 </body>
 </html>

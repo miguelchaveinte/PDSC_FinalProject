@@ -9,7 +9,7 @@
 <nav>
     <ul id="sidemenu">
         <li><a href="DisponiblesView.jsp"">Alojamientos Disponibles</a></li>
-        <li><a href="reserva.html">Reservar Alojamiento</a></li>
+        <li><a href="ReservasView.jsp">Reservar Alojamiento</a></li>
         <li><a href="AnfitrionServlet">Registrar Nuevos Precios</a></li>
         <button class="button button1" style="width: auto;">Bienvenido</button>
     </ul>

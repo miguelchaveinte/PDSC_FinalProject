@@ -12,7 +12,14 @@
 
 <%
     UsuarioRegistrado usuario = (UsuarioRegistrado) session.getAttribute("user");
+    /*if (usuario==null){
+        usuario = new UsuarioRegistrado();
+        usuario.setRol("usuario");
+        System.out.println("rol es"+usuario.getRol());
+    }*/
+    
     Alojamiento alojamiento = (Alojamiento) request.getAttribute("infoAlojamiento");
+    int value = (Integer) request.getAttribute("value");
     ArrayList<String> servicios = alojamiento.getServicios();
     ArrayList<String> caracteristicas = alojamiento.getCaracteristicas();
 %>
@@ -27,6 +34,7 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="CrtlVistaReservas.js"></script>
 </head>
 
 
@@ -36,17 +44,16 @@
             
             <!-- Comprobamos la cabecera correspondiente -->
             <c:set var = "rol" value = "<%=usuario.getRol()%>"/>
-            <%
-                System.out.println("-----");
-                System.out.println(usuario.getRol());
-                System.out.println("-----");
-            %>
             <c:if test="${rol=='anfitrion'}">
                 <%@include file="./Anfitrion_Header.jsp" %>
             </c:if>
             
             <c:if test="${rol=='cliente'}">
                 <%@include file="./Cliente_Header.jsp" %>
+            </c:if>
+            
+             <c:if test="${rol=='usuario'}">
+            <%@include file="./Usuario_Header.jsp" %>
             </c:if>
 
             <!--------Imagen del alojamiento-------->
@@ -75,8 +82,13 @@
                                 out.println( "<br>" + "- " + servicio);
                             }
                         %>
-                        
                     </span><br><br><br>
+                    
+                    <!-- En funcion del value se mostrara o no lo siguiente (boton para realizar reserva) -->
+                    <c:set var = "check" value = "<%=value%>"/>
+                    <c:if test="${check==2}">
+                        <%@include file="./ConfirmarReserva.jsp" %>
+                    </c:if>                   
 
                 </div>
             </div>
@@ -100,7 +112,11 @@
         </div>
         
     </div>
+                
+    <!--Texto aqui-->
+    <h4 class= "reservaComplete" id="reservaComplete" style="display: none">Reserva Realizada</h4>
 
+    
     <!--Script-->
     <script>
         // Get the modal
@@ -113,32 +129,6 @@
         }
     </script>
     
-    <!-----------------Filtro de fechas, evitar fechas previas al dia actual----------------->
-    <script type="text/javascript">
-        window.onload=function(){
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementsByName("date_ini")[0].setAttribute('min', today);
-            document.getElementsByName("date_fin")[0].setAttribute('min', today);
-        }
-    </script>
     
-    <!--Filtramos la fecha de salida una vez escojamos la fecha de entrada
-    1. Evitamos fecha de salida previa a la de entrada.
-    2. Establecemos una fecha de salida maxima segun el [RN-6].
-    -->
-    <script>
-      function changeDate(){
-        var min_date = document.getElementById("date_ini").value;
-        //Maximo tiempo de alquiler es 1 mes(30 dias) [RN-6]
-        var date = new Date(min_date);
-        date.setDate(date.getDate() + 30);
-        //Formato correcto
-        var max_date = date.toISOString().substring(0,10);
-
-        document.getElementsByName("date_fin")[0].setAttribute('min', min_date);
-        document.getElementsByName("date_fin")[0].setAttribute('max', max_date);
-      }
-    </script>
-
 </body>
 </html>

@@ -1,12 +1,10 @@
 <%-- 
-    Document   : reservas
-    Created on : 17-dic-2022, 19:43:54
+    Document   : ReservasView
+    Created on : 18-dic-2022, 14:42:07
     Author     : Jhon
 --%>
 
 <%@page import="Modelo.UsuarioRegistrado"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Modelo.Alojamiento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -69,11 +67,11 @@
                     
                 </div>
             </div>
-
+            
             <!--------Tabla de Alojamientos Disponibles-------->
             <div style="width: 55%; float: right;">
-                <div class="header-text">    
-                    
+                <div class="header-text">
+      
                 <!--Creacion de tabla para mostrar los Alojamientos Disponibles-->
                 <table id="myTable">
                     <!--Cabeceras Tabla-->
@@ -83,54 +81,23 @@
                       <th>Valoración</th>
                       <th>Imagen</th>
                     </tr>
-
-                    <!--Rows de la tabla-->
-                    <!-- Uso de etiquetas JSP para mostrar informacion dinamica -->
-                    <%
-                        ArrayList<Alojamiento> alojamientos_disponibles = (ArrayList<Alojamiento>)request.getAttribute("alojamientos_disponibles");// obtenemos la lista de alojamientos disponibles desde el servlet Disponibles
-                        int tipoerror = (int)request.getAttribute("tipoerror");
-                        if(tipoerror == 1){
-                    %>
-                    </table>
-                    <br>
-                    <label id= "error" for="my-select" style="font-size: 24px;">No existen alojamientos disponibles para el municipio</label>
-               
-                        
-                    <%        
-                        }else{
-                            for (Alojamiento alojamiento : alojamientos_disponibles) {
-                            
-                    %>
-                      <tr>
-                        <td><%= alojamiento.getNombre() %></td>
-                        <td><%= alojamiento.getMaximoHuespedes() %></td>
-                        <td><%= alojamiento.getValoracion()%></td>
-                        <td><a href="Informacion?tipo=Reservas&idAlojamiento=<%=alojamiento.getIdAlojamiento()%>"> <img src = <%= alojamiento.getIdFotoPortada()%> width="250" height="179"/></a></td>
-                      </tr>
-                      <%
-                          }
-                      %>
-                       </table>
-                       <%
-                        }
-                      %>
-                      
+                </table>
                 </div>
-            </div>        
+            </div>
 
         </div>
     </div>
 
 
     <!-----------------Autocompletado del buscador de Localidades----------------->
-    <script>        
+    <script>
         /*Array que contiene las localidades de España*/
         var local_spain = localidades;
         
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         autocomplete(document.getElementById("myInput"), local_spain);
     </script>
-
+        
     
 </body>
 </html>

@@ -7,11 +7,13 @@ package Datos.DAO;
 import Datos.ConnectionPool;
 import Modelo.Alojamiento;
 import Modelo.Precio;
+import Modelo.Reserva;
 import Modelo.UsuarioRegistrado;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -264,6 +266,122 @@ public class AlojamientoDB {
             ps.close();
             pool.freeConnection(connection);
         }
+    }
+
+    public static Boolean insertReserva(int idUsuario, int idAlojamiento, String inicio, String fin, int num_huespedes, String message, String estado, Boolean pago) throws SQLException, ParseException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        PreparedStatement ps2 = null;
+        ResultSet rs2 = null;
+
+        //Debemos comprobar que en las fechas deseadas el Alojamiento esté disponible
+        String lista = "SELECT * FROM ALOJAMIENTO WHERE idAlojamiento NOT IN (SELECT idAlojamiento FROM RESERVA WHERE(fechaEntrada <= ? AND fechaSalida >= ?) OR (fechaSalida <= ? AND fechaSalida >= ?)) AND idAlojamiento = ?";
+
+        String consulta = "INSERT INTO RESERVA ( idUsuario, idAlojamiento, fechaEntrada, fechaSalida, numeroHuespedes, comentariosAdicionales, estado, divideElPago) VALUES (?,?,?,?,?,?,?,?)";
+
+        try {
+            ps = connection.prepareStatement(lista);
+            ps.setString(1, inicio);
+            ps.setString(2, inicio);
+            ps.setString(3, fin);
+            ps.setString(4, fin);
+            ps.setInt(5,idAlojamiento);
+            rs=ps.executeQuery();
+            
+            //ResultSet devuelve False, el alojamiento no esta disponible
+            if(!rs.next()){
+                System.out.println("Lo sentimos, el alojamiento está reservado en esas fechas");
+                return false;
+            } else{
+                ps2 = connection.prepareStatement(consulta);
+                ps2.setInt(1, idUsuario);
+                ps2.setInt(2, idAlojamiento);
+                ps2.setString(3, inicio);
+                ps2.setString(4, fin);
+                ps2.setInt(5, num_huespedes);
+                ps2.setString(6, message);
+                ps2.setString(7, estado);
+                ps2.setBoolean(8, pago);
+                //Ejecucion
+                ps2.executeUpdate();
+            }
+  
+            ps.close();
+            //ps2.close();
+            pool.freeConnection(connection);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void updatePrecio(int id, Precio precioNuevo) throws SQLException{    
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        PreparedStatement ps2 = null;
+        ResultSet rs2 = null;
+        PreparedStatement ps3 = null;
+        ResultSet rs3 = null;
+        
+	//Consulta para añadir el nuevo precio
+        String añade = "INSERT INTO PRECIO(precioNoche,precioFinDeSemana,precioSemana,precioMes,fechaInicio,fechaFin,idAlojamiento) VALUES(?,?,?,?,?,?,?)  ";
+        
+        //Consulta para cambiar la fechaFin del precio anterior a la actual
+        String cambiafecha = "UPDATE Precio SET fechaFin = ? WHERE idPrecio = ?";
+        
+	//Consulta para actualizar el precio actual del alojamiento
+        String update = "UPDATE Alojamiento SET idPrecioActual = ? WHERE idAlojamiento = ?";
+        
+        try{
+		  //Paresaemos las fechas obtenidas de precioNuevo, metemos todos los parametros en la primera consulta y ejecutamos
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String inicioStr = dateFormat.format(precioNuevo.getFechaInicio());
+            String finStr = dateFormat.format(precioNuevo.getFechaFin());
+            ps = connection.prepareStatement(añade, Statement.RETURN_GENERATED_KEYS);
+            ps.setFloat(1, precioNuevo.getPrecioNoche());
+            ps.setFloat(2, precioNuevo.getPrecioFinDeSemana());
+            ps.setFloat(3, precioNuevo.getPrecioSemana());
+            ps.setFloat(4, precioNuevo.getPrecioMes());
+            ps.setDate(5, java.sql.Date.valueOf(inicioStr));
+            ps.setDate(6, java.sql.Date.valueOf(finStr));
+            ps.setInt(7, id);
+            ps.executeUpdate();
+
+            //Obtenemos el índice añadido al nuevo precio, metemos los parametros en la segunda consulta y ejecutamos
+            int res = 0;
+            rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                res = rs.getInt(1);
+            }
+            
+            //Ejecutamos la segunda consulta en la que pondremos en la fecha de fin del precio anterior la fecha actual
+            ps2 = connection.prepareStatement(cambiafecha);
+            ps2.setDate(1, java.sql.Date.valueOf(inicioStr));
+            ps2.setInt(2, precioNuevo.getIdPrecio());
+            ps2.executeUpdate();
+            
+            //Ultima query para actualizar l id del precio actual del Alojamiento
+            ps3 = connection.prepareStatement(update);
+            ps3.setInt(1, res);
+            ps3.setInt(2, id);
+            ps3.executeUpdate();
+            
+            //Liberamos espacio
+            ps.close();
+            ps2.close();
+            ps3.close();
+            pool.freeConnection(connection);
+            
+        } catch (SQLException e) {
+            System.out.println("FALLITOS");
+            e.printStackTrace();
+        }
+        
     }
    
 }

@@ -69,47 +69,31 @@ public class Disponibles extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.setContentType("text/html;charset=UTF-8");
+
         /* Creacion booleano que detecta errores */
         boolean error = false;
-        int tipoError = 0;
         
         /*Obtenemos los valores de los parametros indicados en una solicitud HTTP*/
         String entrada = request.getParameter("date_ini");
         String salida = request.getParameter("date_fin");
-        
-
-       
-        
-
-        /*Date fecha_entrada = formatoFechaEntrada.parse(entrada);
-        Date fecha_salida = formatoFechaSalida.parse(salida);*/
         String localidad = request.getParameter("myLocalidad");
+
         request.setAttribute("local", localidad);
         
-
         ArrayList<Alojamiento> alojamientos_disponibles = new ArrayList<Alojamiento>();
 
-        /*De momento solo compruebo la localida faltaria comprobar las fechas --> TODO*/
         try {
-            /*fechaEntrada = date.parse(entrada);
-            fechaSalida = date.parse(salida);*/
             alojamientos_disponibles = AlojamientoDB.getListaAlojamientos(localidad, entrada, salida);
             /* Si no existe alojamientos es null entonces error */
             if(alojamientos_disponibles.isEmpty()){
                 error = true;
-                tipoError = 1;
             }
             
             if(error){
-                if(tipoError==1){
-                    request.setAttribute("tipoerror", tipoError);
-                    String url = "/disponibles.jsp";
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-                    dispatcher.forward(request, response);
-                }
-                
+                PrintWriter out=response.getWriter();
+                out.println("No existen alojamientos disponibles para el municipio y las fechas introducidas");
             }else{
-                request.setAttribute("tipoerror", tipoError);
                 request.setAttribute("alojamientos_disponibles", alojamientos_disponibles);
                 String url = "/disponibles.jsp";
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
@@ -120,8 +104,6 @@ public class Disponibles extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-
         
     }
 

@@ -7,6 +7,11 @@
     <title>VacationAsHome</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="CrtlVistaLogin.js"></script>
         
 </head>
 
@@ -16,12 +21,12 @@
         <div class="container">
             <nav>
                 <ul id="sidemenu">
-                    <li style="margin: 50px 400px;"><a href="disponible_NO_login.html">Alojamientos Disponibles</a></li>
+                    <li style="margin: 50px 400px;"><a href="DisponiblesView.jsp">Alojamientos Disponibles</a></li>
                     <button class="button button1" onclick="document.getElementById('id01').style.display='block'" style="width: auto;">Log In</button>
 
                     <div id="id01" class="modal">
                         <!--Form-->
-                        <form class="modal-content animate">
+                        <form class="modal-content animate" action="Registro" method="POST">
 
                             <div class="imgcontainer">
                                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -44,7 +49,7 @@
                                 <h4 id="erro1" style="display: none">El email introducido no existe en la base de datos</h4>
                                 
                                 <!-- Submit Button -->
-                                <button id="submit1" type="submit">Login</button>
+                                <button id="submit1" type="submit" onclick="compruebaLogin()">Login</button>
 
                             </div>
                         </form>
@@ -82,53 +87,7 @@
         }
     </script>
     
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <script>
-        $("#submit1").click(function() {
-            // Get the text from the two inputs.
-            var email = $("#email").val();
-            var password = $("#password").val();
-
-            var resultado=new XMLHttpRequest();
-            var emailUser=document.getElementById('email');
-
-        if(password!="" && email!="" && emailUser.checkValidity()){
-            
-            
-            // Ajax POST request.
-        resultado= $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/PDSC/Registro',
-            data: {"password": password,"email": email},
-            dataType: "text",
-             async: false,
-            success: function( datos ) {
-                return datos;
-            }
-        });
-             
-        if(resultado.responseText=="El email introducido no existe en la base de datos\r\n") {
-            document.getElementById('erro1').style.display="block"; 
-            document.getElementById('erro1').innerHTML="El email introducido no existe en la base de datos";
-            return false;
-        }else if(resultado.responseText=="La contrasena no se corresponde con el correo introducido\r\n"){
-            document.getElementById('erro1').style.display="block"; 
-            document.getElementById('erro1').innerHTML="La contraseña no se corresponde con el correo introducido";
-            return false;
-        }else {
-            window.location.href= 'http://localhost:8080/PDSC/Logged.jsp';
-            return false;
-        }
-    }
-});
-
-
-
-    </script>
     
 </body>
 </html>

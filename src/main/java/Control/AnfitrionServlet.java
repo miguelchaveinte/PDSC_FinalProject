@@ -70,39 +70,24 @@ public class AnfitrionServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UsuarioRegistrado usuario = (UsuarioRegistrado)session.getAttribute("user");
         int idAnf = usuario.getId();
-        boolean error = false;
-        int tipoError = 0;
+       
         ArrayList<Alojamiento> alojamientos_anfitrion = new ArrayList<Alojamiento>();
         try {
             /*fechaEntrada = date.parse(entrada);
             fechaSalida = date.parse(salida);*/
             alojamientos_anfitrion = AlojamientoDB.getAlojamientosAnf(idAnf);
             System.out.println("En el servlet: " + alojamientos_anfitrion);
-            /* Si no existe alojamientos es null entonces error */
-            if(alojamientos_anfitrion.isEmpty()){
-                error = true;
-                tipoError = 1;
-            }
-            //AQUI NO HABRA ERROR YA QUE IMPLEMENTAREMOS UNA CABECERA EN FUNCION DE SI EL USUARIOREGISTRADO EN ANFITRION O NO!!
-            if(error){
-                if(tipoError==1){
-                    request.setAttribute("tipoerror", tipoError);
-                    String url = "/registrar.jsp";
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-                    dispatcher.forward(request, response);
-                }
-                
-            }else{
-                request.setAttribute("tipoerror", tipoError);
-                request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
-                String url = "/registrar.jsp";
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+           
+            request.setAttribute("alojamientos_anfitrion", alojamientos_anfitrion);
+            String url = "/registrar.jsp";
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
                 dispatcher.forward(request, response);
-            }
         } catch (SQLException ex) {
-                Logger.getLogger(Disponibles.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnfitrionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
