@@ -18,4 +18,4 @@ Tenemos un total de 17 diagramas distintos, para más detalles analizar cada uno
 
 En esta parte tenemos el código correpondiente a la implementación de la aplicación. Para esta implementación hemos empleado una arquitectura MVC incluyendo control de errores en los inputs que pueda introducir el usuario con sus respectivas pruebas, presentes en el documento de "Diseño".
 
-(Al adaptar el repositorio a los directorios de la entrega se ha perdido el historial de desarrollo. Se puede consultar en [https://gitlab.inf.uva.es/hectori/pdsc_proyecto_g04/-/tree/master])
+(Al adaptar el repositorio a los directorios de la entrega se ha perdido el historial de desarrollo. Se puede consultar en [Rama Master Desarrollo](https://gitlab.inf.uva.es/hectori/pdsc_proyecto_g04/-/tree/master))
