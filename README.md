@@ -1,5 +1,5 @@
 # PROYECTO FINAL PDSC 2022- VACATION AS HOME
-## Equipo 4 - Héctor Toribio González, Alejandro Pulido Sánchez, Miguel Chaveinte García y Jhon Steeven Cabanilla Alvarado
+## Equipo 4 - Héctor Toribio González, Alejandro Pulido Sánchez, Miguel Chaveinte García, Carlos Martín Sanz y Jhon Steeven Cabanilla Alvarado
 
 En este documento explicaremos un poco la extructura de nuestro proyecto final. Este proyecto consta de la planificación, diseño, implementación y pruebas de una aplicación web que presta servicio de alquiler de alojamientos. El contexto completo se puede ver en el enunciado.
 
@@ -18,3 +18,4 @@ Tenemos un total de 17 diagramas distintos, para más detalles analizar cada uno
 
 En esta parte tenemos el código correpondiente a la implementación de la aplicación. Para esta implementación hemos empleado una arquitectura MVC incluyendo control de errores en los inputs que pueda introducir el usuario con sus respectivas pruebas, presentes en el documento de "Diseño".
 
+(Al adaptar el repositorio a los directorios de la entrega se ha perdido el historial de desarrollo. Se puede consultar en [https://gitlab.inf.uva.es/hectori/pdsc_proyecto_g04/-/tree/master])
